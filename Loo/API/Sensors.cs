@@ -60,10 +60,33 @@ namespace Loo.API
             return new JsonResult(sen);
         }
 
+        /// <summary>
+        /// Creates a new sensor for a given location.
+        /// </summary>
+        /// <returns>The created sensor document.</returns>
+        /// <param name="sensor">Object representing a sensor.</param>
         [HttpPost("/api/sensor")]
-        public JsonResult AddSensor([FromBody] SensorReq sensor)
+        public async Task<JsonResult> AddSensorAsync([FromBody] SensorAddReq sensor)
         {
-            return new JsonResult("Sensor added.");
+            var loc = _client.CreateDocumentQuery<Location>(
+                _locationCollectionUri)
+                     .Where(x => x.LocationName == sensor.LocationName && x.Building == sensor.Building)
+                     .ToList()
+                     .FirstOrDefault();
+
+            if (loc == null)
+                return new JsonResult(null);
+
+            if (loc.Sensors == null)
+            {
+                loc.Sensors = new List<Sensor>();
+            }
+
+            loc.Sensors.Add(sensor);
+
+            var response = await _client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(Constants.LooDb, Constants.LocationCollection, loc.Id), loc);
+
+            return new JsonResult(response.Resource);
         }
 
         /// <summary>
@@ -76,9 +99,9 @@ namespace Loo.API
         {
             var loc = _client.CreateDocumentQuery<Location>(
                 _locationCollectionUri)
-                             .Where(x => x.LocationName == sensor.LocationName && x.Building == sensor.Building)
-                         .ToList()
-                         .FirstOrDefault();
+                     .Where(x => x.LocationName == sensor.LocationName && x.Building == sensor.Building)
+                     .ToList()
+                     .FirstOrDefault();
 
             if (loc == null)
                 return new JsonResult(null);
@@ -119,5 +142,13 @@ namespace Loo.API
 		public float Value { get; set; }
 		[JsonProperty(PropertyName = "battery")]
 		public float Battery { get; set; }
+    }
+
+    public class SensorAddReq : Sensor
+    {
+        [JsonProperty(PropertyName = "building")]
+        public string Building { get; set; }
+        [JsonProperty(PropertyName = "location")]
+        public string LocationName { get; set; }
     }
 }
