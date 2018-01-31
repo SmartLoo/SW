@@ -8,6 +8,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace Loo.API
 {
@@ -30,7 +31,13 @@ namespace Loo.API
         public JsonResult GetClients()
         {
             IMongoCollection<Client> clientCollection = _db.GetCollection<Client>("Clients");
-            List<string> clients = clientCollection.Find("{}").Project<Client>("{Name: 1}").ToList().Select(x => x.Name).ToList();
+            List<KeyValuePair<string, string>> clients = clientCollection
+                .Find("{}")
+                .Project<Client>("{Name: 1}")
+                .ToEnumerable()
+                .Select(o => new KeyValuePair<string, string>(o.Name, o.Id.ToString()))
+                .ToList();
+            
             return new JsonResult(clients);
         }
 
