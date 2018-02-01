@@ -41,11 +41,11 @@ namespace Loo.API
             return new JsonResult(clients);
         }
 
-        [HttpGet("api/sensor/{clientName}")]
-        public JsonResult GetClient(string clientName)
+        [HttpGet("api/sensor/{clientId}")]
+        public JsonResult GetClient(string clientId)
         {
             IMongoCollection<Client> clientCollection = _db.GetCollection<Client>("Clients");
-            Client client = clientCollection.Find(String.Format("{Name: {0}", clientName)).First();
+            Client client = clientCollection.Find("{ _id : ObjectId(\"" + clientId + "\") }").Single();
             return new JsonResult(client);
         }
 
