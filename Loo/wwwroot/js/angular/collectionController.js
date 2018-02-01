@@ -14,21 +14,11 @@
         vm.Building = "PHO";
         vm.Location = "1FLOORW";
         vm.SensorId = "302";
-
-        setInterval(updateData, 5000);
-
-        function updateData( )
-        {
-          $http.get("http://smartloo.azurewebsites.net/api/sensor/PHO/1FLOORW/302")
-                .then(function(response) {
-                    vm.SensorData = response.data;
-                });
-        }
-
+       
         $(function () {
-            $http.get("http://smartloo.azurewebsites.net/api/sensor/PHO/1FLOORW/302")
+            $http.get("/api/client?clientId=5a70eace54cdbbebe2440c4c")
                 .then(function(response) {
-                    vm.SensorData = response.data;
+                    vm.Client = response.data;
                 });
         });
     };

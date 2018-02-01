@@ -41,12 +41,30 @@ namespace Loo.API
             return new JsonResult(clients);
         }
 
-        [HttpGet("api/sensor/{clientId}")]
+        [HttpGet("api/client")]
         public JsonResult GetClient(string clientId)
         {
             IMongoCollection<Client> clientCollection = _db.GetCollection<Client>("Clients");
             Client client = clientCollection.Find("{ _id : ObjectId(\"" + clientId + "\") }").Single();
             return new JsonResult(client);
+        }
+
+        [HttpGet("api/sensors")]
+        public JsonResult GetSensor(string clientId, string buildingId, string restroomId, string sensorId)
+        {
+            IMongoCollection<Client> clientCollection = _db.GetCollection<Client>("Clients");
+            Client client = clientCollection
+                .Find("{ _id : ObjectId(\"" + clientId + "\") }")
+                .Single();
+
+            var sensor = client.Buildings
+                 .FirstOrDefault(b => b.BuildingCode == buildingId)
+                 .Restrooms
+                 .FirstOrDefault(r => r.RestroomCode == restroomId)
+                 .Sensors
+                 .FirstOrDefault(s => s.SensorId == sensorId);
+            
+            return new JsonResult(sensor);
         }
 
     }
