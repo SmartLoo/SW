@@ -5,67 +5,49 @@ using Newtonsoft.Json;
 
 namespace Loo.Models
 {
-    public class Client
+    public class BuildingAddress
+    {
+        [JsonProperty(PropertyName = "BuildingStreet")]
+        public string BuildingStreet { get; set; }
+
+        [JsonProperty(PropertyName = "BuildingCity")]
+        public string BuildingCity { get; set; }
+
+        [JsonProperty(PropertyName = "BuildingState")]
+        public string BuildingState { get; set; }
+
+        [JsonProperty(PropertyName = "BuildingZip")]
+        public string BuildingZip { get; set; }
+    }
+
+    public class Sensor
     {
         [JsonProperty(PropertyName = "_id")]
         public ObjectId Id { get; set; }
 
-        [JsonProperty(PropertyName = "Name")]
-        public string Name { get; set; }
+        [JsonProperty(PropertyName = "ClientName")]
+        public string ClientName { get; set; }
 
-        [JsonProperty(PropertyName = "Phone")]
-        public string Phone { get; set; }
-
-        [JsonProperty(PropertyName = "Email")]
-        public string Email { get; set; }
-
-        [JsonProperty(PropertyName = "Buildings")]
-        public List<Building> Buildings { get; set; }
-    }
-
-    public class Building
-    {
         [JsonProperty(PropertyName = "BuildingName")]
         public string BuildingName { get; set; }
 
         [JsonProperty(PropertyName = "BuildingCode")]
         public string BuildingCode { get; set; }
 
-        [JsonProperty(PropertyName = "StreetAddress")]
-        public string StreetAddress { get; set; }
+        [JsonProperty(PropertyName = "BuildingAddress")]
+        public BuildingAddress BuildingAddress { get; set; }
 
-        [JsonProperty(PropertyName = "City")]
-        public string City { get; set; }
-
-        [JsonProperty(PropertyName = "State")]
-        public string State { get; set; }
-
-        [JsonProperty(PropertyName = "Zip")]
-        public string Zip { get; set; }
-
-        [JsonProperty(PropertyName = "Restrooms")]
-        public List<Restroom> Restrooms { get; set; }
-    }
-
-    public class Restroom
-    {
-        [JsonProperty(PropertyName = "RestroomName")]
-        public string RestroomName { get; set; }
-
-        [JsonProperty(PropertyName = "RestroomCode")]
-        public string RestroomCode { get; set; }
-
-        [JsonProperty(PropertyName = "Sensors")]
-        public List<Sensor> Sensors { get; set; }
-    }
-
-    public class Sensor
-    {
         [JsonProperty(PropertyName = "SensorName")]
         public string SensorName { get; set; }
 
         [JsonProperty(PropertyName = "SensorId")]
         public string SensorId { get; set; }
+
+        [JsonProperty(PropertyName = "LocationName")]
+        public string LocationName { get; set; }
+
+        [JsonProperty(PropertyName = "LocationCode")]
+        public string LocationCode { get; set; }
 
         [JsonProperty(PropertyName = "SensorValue")]
         public float SensorValue { get; set; }

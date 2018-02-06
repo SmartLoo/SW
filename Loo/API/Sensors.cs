@@ -16,74 +16,91 @@ namespace Loo.API
     {
         private readonly MongoClient _client;
         private readonly IMongoDatabase _db;
+        IMongoCollection<Sensor> _ctx;
 
         public Sensors()
         {
             _client = new MongoClient(Constants.MongoConnectionString);
             _db = _client.GetDatabase(Constants.MongoDatabase);
+            _ctx = _db.GetCollection<Sensor>("Sensors");
         }
 
         /// <summary>
-        /// Retrieve all locations where sensors exist.
+        /// Get client list.
         /// </summary>
-        /// <returns>The locations.</returns>
+        /// <returns>JSON array of clients.</returns>
         [HttpGet("api/clients")]
         public JsonResult GetClients()
         {
-            IMongoCollection<Client> clientCollection = _db.GetCollection<Client>("Clients");
-            List<KeyValuePair<string, string>> clients = clientCollection
-                .Find("{}")
-                .Project<Client>("{Name: 1}")
-                .ToEnumerable()
-                .Select(o => new KeyValuePair<string, string>(o.Name, o.Id.ToString()))
-                .ToList();
+            var clients = _ctx.Distinct(x => x.ClientName, "{ }").ToList();
             
             return new JsonResult(clients);
         }
 
-        [HttpGet("api/client")]
-        public JsonResult GetClient(string clientId)
+        /// <summary>
+        /// Get sensor specified by GUID.
+        /// </summary>
+        /// <returns>Sensor data</returns>
+        /// <param name="sensorId">Sensor GUID.</param>
+        [HttpGet("api/sensor")]
+        public JsonResult GetSensor(string sensorId)
         {
-            IMongoCollection<Client> clientCollection = _db.GetCollection<Client>("Clients");
-            Client client = clientCollection.Find("{ _id : ObjectId(\"" + clientId + "\") }").Single();
-            return new JsonResult(client);
-        }
-
-        [HttpGet("api/sensors")]
-        public JsonResult GetSensor(string clientId, string buildingId, string restroomId, string sensorId)
-        {
-            IMongoCollection<Client> clientCollection = _db.GetCollection<Client>("Clients");
-            Client client = clientCollection
-                .Find("{ _id : ObjectId(\"" + clientId + "\") }")
-                .Single();
-
-            var sensor = client.Buildings
-                 .FirstOrDefault(b => b.BuildingCode == buildingId)
-                 .Restrooms
-                 .FirstOrDefault(r => r.RestroomCode == restroomId)
-                 .Sensors
-                 .FirstOrDefault(s => s.SensorId == sensorId);
-            
+            var sensor = _ctx.Find("{\"SensorId\" : \"" + sensorId + "\"}").ToList();
             return new JsonResult(sensor);
         }
 
+        /// <summary>
+        /// Gets buildings associated with client.
+        /// </summary>
+        /// <returns>JSON array of buildings.</returns>
+        /// <param name="clientName">Client name.</param>
+        [HttpGet("api/buildings")]
+        public JsonResult GetBuildings(string clientName)
+        {
+            var buildings = _ctx.Distinct(x => x.BuildingName, "{\"ClientName\" : \"" + clientName + "\"}").ToList();
+            return new JsonResult(buildings);
+        }
+
+        /// <summary>
+        /// Gets Loo connected restrooms in a given building.
+        /// </summary>
+        /// <returns>JSON array of restroom names for a given building.</returns>
+        /// <param name="clientName">Client name.</param>
+        /// <param name="buildingName">Building name.</param>
+        [HttpGet("api/restrooms")]
+        public JsonResult GetRestrooms(string clientName, string buildingName)
+        {
+            var restrooms = _ctx.Distinct(x => x.LocationName, "{\"ClientName\" : \"" + clientName + "\", \"BuildingName\" : \"" + buildingName + "\"}").ToList();
+            return new JsonResult(restrooms);
+        }
+
+        /// <summary>
+        /// Updates sensor value and battery level.
+        /// </summary>
+        /// <returns>Updated sensor information.</returns>
+        /// <param name="s">S.</param>
+        [HttpPost("api/sensor")]
+        public JsonResult UpdateSensor([FromBody] SensorUpdate s)
+        {
+            var sensor = _ctx.Find("{\"SensorId\" : \"" + s.SensorId + "\"}").FirstOrDefault();
+            sensor.SensorValue = s.Value;
+            sensor.SensorBattery = s.Battery;
+
+            _ctx.ReplaceOne("{\"SensorId\" : \"" + s.SensorId + "\"}", sensor);
+
+            return new JsonResult(sensor);
+        }
+
+
     }
 
-    public class SensorReq
+    public class SensorUpdate
     {
 		[JsonProperty(PropertyName = "sensorId")]
         public string SensorId { get; set; }
-		[JsonProperty(PropertyName = "value")]
+		[JsonProperty(PropertyName = "sensorValue")]
 		public float Value { get; set; }
-		[JsonProperty(PropertyName = "battery")]
+		[JsonProperty(PropertyName = "batteryLevel")]
 		public float Battery { get; set; }
-    }
-
-    public class SensorAddReq : Sensor
-    {
-        [JsonProperty(PropertyName = "building")]
-        public string Building { get; set; }
-        [JsonProperty(PropertyName = "location")]
-        public string LocationName { get; set; }
     }
 }
