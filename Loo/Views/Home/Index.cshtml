@@ -1,85 +1,100 @@
 ﻿<!DOCTYPE html>
-<html lang="en" class="wf-poppins-n3-active wf-poppins-n4-active wf-poppins-n6-active wf-poppins-n7-active wf-poppins-n5-active wf-roboto-n3-active wf-roboto-n4-active wf-roboto-n5-active wf-roboto-n6-active wf-roboto-n7-active wf-active">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="./assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
-    <!--end::Page Vendors -->
-    <link href="./assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="./assets/demo/demo9/base/style.bundle.css" rel="stylesheet" type="text/css" />
     <title>Loo - Analytics Dashboard</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,700" rel="stylesheet">
-    <!-- Custom styles for this template -->
     <link href="~/css/site.css" rel="stylesheet">
+    <link href="~/css/loo.css" rel="stylesheet">
 </head>
-<body ng-app="app" ng-controller="collectionController as vm" class="m--skin- m-page--loading-enabled m-content--skin-light m-header--fixed m-header--fixed-mobile m-aside-left--offcanvas-default m-aside-left--enabled m-aside-left--fixed m-aside-left--skin-dark m-aside--offcanvas-default m-header--minimize-off">
-
+<body ng-app="app" ng-controller="collectionController as vm">
+    <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-brand" href="#">
+            <button class="btn btn-default btn-round">
+                <i class="fas fa-location-arrow"></i>
+            </button>
+        </div>
+        <div class="">
+            <span class="float-right">
+                <button class="btn btn-default btn-pill">
+                    Edit
+                </button>
+                <button class="btn btn-default btn-round">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </span>
+        </div>
+    </nav>
+    <div class="container-fluid">
         <div class="row">
-        <div class="col-lg-12">
-            <!--begin:: Widgets/Top Products-->
-            <div class="m-portlet m-portlet--bordered-semi">
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <h3 class="m-portlet__head-text">
-                                Dashboard
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="m-portlet__head-tools">
-                        <ul class="m-portlet__nav">
-                            <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
-                                <a href="#" class="m-portlet__nav-link m-dropdown__toggle dropdown-toggle btn btn--sm m-btn--pill btn-secondary m-btn m-btn--label-brand">
-                                    Restrooms
-                                </a>
-                                <div class="m-dropdown__wrapper">
-                                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust" style="left: auto; right: 35px;"></span>
-                                    <div class="m-dropdown__inner">
-                                        <div class="m-dropdown__body">
-                                            <div class="m-dropdown__content">
-                                                <ul class="m-nav">
-                                                    <li ng-repeat="loc in vm.Client.Buildings[0].Restrooms" class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
-                                                            <i class="m-nav__link-icon flaticon-map-location"></i>
-                                                            <span class="m-nav__link-text">{{loc.RestroomCode}}</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+            <div class="col-sm-12">
+                <h1>College of Arts and Sciences</h1>
+                <h4>
+                    Details
+                    <i class="fas fa-caret-right"></i>
+                </h4>
+            </div>
+        </div>
+        <div class="spacer row">
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Quick View</h4>
+                <div class="row">
+                        <div ng-repeat="x in vm.Sensors" class="col-sm-4">
+                    <div class="card mb-4">
+                        <div class="card-block">
+                            <div class="card-body">
+                                <h5 class="card-title">1st Floor Men's</h5>
+                                <div class="card-text">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div ng-repeat="s in vm.Client.Buildings[0].Restrooms[0].Sensors" class="m-portlet__body">
-                    <div class="m-widget4">
-                        <div class="m-widget4__item">
-                            <div class="m-widget4__info">
-                                <span class="m-widget4__title">
-                                    {{s.SensorName}}
-                                </span><br>
-                                <span class="m-widget4__sub">
-                                    {{s.SensorId}}
-                                </span>
                             </div>
-                            <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">{{s.SensorValue}}%</span>
-                            </span>
+                            <div class="card-footer bg-transparent text-muted">
+                                <i class="fas fa-battery-half float-right"></i>
+                            </div>
                         </div>
                     </div>
+                </div>  
                 </div>
             </div>
         </div>
     </div>
+    <nav class="container-fluid navbar fixed-bottom navbar-dark bg-dark">
+        <div class="mx-auto row">
+            <div class="col-xs-4">
+                <div class="btn btn-menu btn-secondary active">
+                    <div class="btn-menu-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="btn-menu-subtitle">Home</div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="btn btn-menu btn-secondary">
+                    <div class="btn-menu-icon">
+                        <i class="fas fa-th-large"></i>
+                    </div>
+                    <div class="btn-menu-subtitle">Restrooms</div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="btn btn-menu btn-secondary">
+                    <div class="btn-menu-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="btn-menu-subtitle">Automation</div>
+                </div>
+            </div>
+        </div>
+    </nav>
 </body>
-<script src="~/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
-<script src="~/assets/demo/demo9/base/scripts.bundle.js" type="text/javascript"></script>
-<script src="~/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
-<script src="~/assets/app/js/dashboard.js" type="text/javascript"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
 <script src="~/js/angular/app.js"></script>
 <script src="~/js/angular/collectionController.js"></script>

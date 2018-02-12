@@ -91,7 +91,6 @@ namespace Loo.API
             return new JsonResult(sensor);
         }
 
-
     }
 
     public class SensorUpdate

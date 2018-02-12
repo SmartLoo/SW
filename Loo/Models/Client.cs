@@ -55,4 +55,23 @@ namespace Loo.Models
         [JsonProperty(PropertyName = "SensorBattery")]
         public float SensorBattery { get; set; }
     }
+
+    public class SensorHistory
+    {
+        [JsonProperty(PropertyName = "_id")]
+        public ObjectId Id { get; set; }
+
+        [JsonProperty(PropertyName = "SensorId")]
+        public string SensorId { get; set; }
+
+        [JsonProperty(PropertyName = "SensorValue")]
+        public float SensorValue { get; set; }
+
+        [JsonProperty(PropertyName = "SensorBattery")]
+        public float SensorBattery { get; set; }
+
+        [JsonProperty(PropertyName = "Timestamp")]
+        public float Timestamp { get; set; }
+
+    }
 }
