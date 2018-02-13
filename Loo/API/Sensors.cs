@@ -7,148 +7,99 @@ using Loo;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace Loo.API
 {
     public class Sensors : Controller
     {
-        private DocumentClient _client;
-        private Uri _locationCollectionUri;
+        private readonly MongoClient _client;
+        private readonly IMongoDatabase _db;
+        IMongoCollection<Sensor> _ctx;
 
         public Sensors()
         {
-            _client = new DocumentClient(new Uri(Constants.CosmosEndpoint), Constants.CosmosKey);
-            _locationCollectionUri = UriFactory.CreateDocumentCollectionUri(Constants.LooDb, Constants.LocationCollection);
+            _client = new MongoClient(Constants.MongoConnectionString);
+            _db = _client.GetDatabase(Constants.MongoDatabase);
+            _ctx = _db.GetCollection<Sensor>("Sensors");
         }
 
         /// <summary>
-        /// Retrieve all locations where sensors exist.
+        /// Get client list.
         /// </summary>
-        /// <returns>The locations.</returns>
-        [HttpGet("api/locations")]
-        public JsonResult GetLocations()
+        /// <returns>JSON array of clients.</returns>
+        [HttpGet("api/clients")]
+        public JsonResult GetClients()
         {
-            var locations = _client.CreateDocumentQuery<Location>(
-                _locationCollectionUri).ToList();
-            return new JsonResult(locations);
-        }
-
-        /// <summary>
-        /// Retrieve sensor by ID and location.
-        /// </summary>
-        /// <returns>The sensor.</returns>
-        [HttpGet("api/sensor/{building}/{location}/{id}")]
-        public JsonResult GetSensor(string location, string id, string building)
-        {
-			var loc = _client.CreateDocumentQuery<Location>(
-				_locationCollectionUri)
-                             .Where(x => x.LocationName == location && x.Building == building)
-						 .ToList()
-						 .FirstOrDefault();
-
-			if (loc == null)
-				return new JsonResult(null);
-
-			var sen = loc.Sensors
-                         .Where(x => x.Id == id)
-					 .ToList()
-					 .FirstOrDefault();
-
-			if (sen == null)
-				return new JsonResult(null);
+            var clients = _ctx.Distinct(x => x.ClientName, "{ }").ToList();
             
-            return new JsonResult(sen);
+            return new JsonResult(clients);
         }
 
         /// <summary>
-        /// Creates a new sensor for a given location.
+        /// Get sensor specified by GUID.
         /// </summary>
-        /// <returns>The created sensor document.</returns>
-        /// <param name="sensor">Object representing a sensor.</param>
-        [HttpPost("/api/sensor")]
-        public async Task<JsonResult> AddSensorAsync([FromBody] SensorAddReq sensor)
+        /// <returns>Sensor data</returns>
+        /// <param name="sensorId">Sensor GUID.</param>
+        [HttpGet("api/sensor")]
+        public JsonResult GetSensor(string sensorId)
         {
-            var loc = _client.CreateDocumentQuery<Location>(
-                _locationCollectionUri)
-                     .Where(x => x.LocationName == sensor.LocationName && x.Building == sensor.Building)
-                     .ToList()
-                     .FirstOrDefault();
-
-            if (loc == null)
-                return new JsonResult(null);
-
-            if (loc.Sensors == null)
-            {
-                loc.Sensors = new List<Sensor>();
-            }
-
-            loc.Sensors.Add(sensor);
-
-            var response = await _client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(Constants.LooDb, Constants.LocationCollection, loc.Id), loc);
-
-            return new JsonResult(response.Resource);
+            var sensor = _ctx.Find("{\"SensorId\" : \"" + sensorId + "\"}").ToList();
+            return new JsonResult(sensor);
         }
 
         /// <summary>
-        /// Update current sensor value and battery life.
+        /// Gets buildings associated with client.
         /// </summary>
-        /// <returns>Update document.</returns>
-        /// <param name="sensor">Request containing the sensor id, property name, location name, value, and battery.</param>
-        [HttpPost("/api/sensor_data/update")]
-        public async Task<JsonResult> UpdateSensorDataAsync([FromBody] SensorReq sensor)
+        /// <returns>JSON array of buildings.</returns>
+        /// <param name="clientName">Client name.</param>
+        [HttpGet("api/buildings")]
+        public JsonResult GetBuildings(string clientName)
         {
-            var loc = _client.CreateDocumentQuery<Location>(
-                _locationCollectionUri)
-                     .Where(x => x.LocationName == sensor.LocationName && x.Building == sensor.Building)
-                     .ToList()
-                     .FirstOrDefault();
-
-            if (loc == null)
-                return new JsonResult(null);
-
-            var sen = loc.Sensors
-                     .Where(x => x.Id == sensor.SensorId)
-                     .ToList()
-                     .FirstOrDefault();
-
-            if (sen == null)
-                return new JsonResult(null);
-
-            if (sen.SensorHistory == null)
-            {
-                sen.SensorHistory = new List<Status>();
-            }
-
-            sen.Status.Value = sensor.Value;
-            sen.Status.TimeStamp = DateTime.Now;
-            sen.Status.Battery = sensor.Battery;
-            sen.SensorHistory.Add(sen.Status);
-
-            var response = await _client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(Constants.LooDb, Constants.LocationCollection, loc.Id), loc);
-
-            return new JsonResult("OK");
+            var buildings = _ctx.Distinct(x => x.BuildingName, "{\"ClientName\" : \"" + clientName + "\"}").ToList();
+            return new JsonResult(buildings);
         }
+
+        /// <summary>
+        /// Gets Loo connected restrooms in a given building.
+        /// </summary>
+        /// <returns>JSON array of restroom names for a given building.</returns>
+        /// <param name="clientName">Client name.</param>
+        /// <param name="buildingName">Building name.</param>
+        [HttpGet("api/restrooms")]
+        public JsonResult GetRestrooms(string clientName, string buildingName)
+        {
+            var restrooms = _ctx.Distinct(x => x.LocationName, "{\"ClientName\" : \"" + clientName + "\", \"BuildingName\" : \"" + buildingName + "\"}").ToList();
+            return new JsonResult(restrooms);
+        }
+
+        /// <summary>
+        /// Updates sensor value and battery level.
+        /// </summary>
+        /// <returns>Updated sensor information.</returns>
+        /// <param name="s">S.</param>
+        [HttpPost("api/sensor")]
+        public JsonResult UpdateSensor([FromBody] SensorUpdate s)
+        {
+            var sensor = _ctx.Find("{\"SensorId\" : \"" + s.SensorId + "\"}").FirstOrDefault();
+            sensor.SensorValue = s.Value;
+            sensor.SensorBattery = s.Battery;
+
+            _ctx.ReplaceOne("{\"SensorId\" : \"" + s.SensorId + "\"}", sensor);
+
+            return new JsonResult(sensor);
+        }
+
     }
 
-    public class SensorReq
+    public class SensorUpdate
     {
 		[JsonProperty(PropertyName = "sensorId")]
-		public string SensorId { get; set; }
-		[JsonProperty(PropertyName = "building")]
-		public string Building { get; set; }
-		[JsonProperty(PropertyName = "location")]
-		public string LocationName { get; set; }
-		[JsonProperty(PropertyName = "value")]
+        public string SensorId { get; set; }
+		[JsonProperty(PropertyName = "sensorValue")]
 		public float Value { get; set; }
-		[JsonProperty(PropertyName = "battery")]
+		[JsonProperty(PropertyName = "batteryLevel")]
 		public float Battery { get; set; }
-    }
-
-    public class SensorAddReq : Sensor
-    {
-        [JsonProperty(PropertyName = "building")]
-        public string Building { get; set; }
-        [JsonProperty(PropertyName = "location")]
-        public string LocationName { get; set; }
     }
 }
