@@ -3,9 +3,9 @@
     "use strict";
 
     angular.module("app")
-        .controller("collectionController", collectionController);
+        .controller("restroomController", restroomController);
 
-    function collectionController($http, $timeout, $scope) {
+    function restroomController($http, $timeout, $scope) {
 
         // Reference to scope of controller
         var vm = this;

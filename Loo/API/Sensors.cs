@@ -17,12 +17,14 @@ namespace Loo.API
         private readonly MongoClient _client;
         private readonly IMongoDatabase _db;
         IMongoCollection<Sensor> _ctx;
+        IMongoCollection<SensorHistory> _history;
 
         public Sensors()
         {
             _client = new MongoClient(Constants.MongoConnectionString);
             _db = _client.GetDatabase(Constants.MongoDatabase);
             _ctx = _db.GetCollection<Sensor>("Sensors");
+            _history = _db.GetCollection<SensorHistory>("SensorHistory");
         }
 
         /// <summary>
@@ -86,7 +88,16 @@ namespace Loo.API
             sensor.SensorValue = s.Value;
             sensor.SensorBattery = s.Battery;
 
+            var historyItem = new SensorHistory()
+            {
+                SensorId = sensor.SensorId,
+                SensorValue = sensor.SensorValue,
+                SensorBattery = sensor.SensorBattery,
+                Timestamp = DateTime.Now
+            };
+
             _ctx.ReplaceOne("{\"SensorId\" : \"" + s.SensorId + "\"}", sensor);
+            _history.InsertOne(historyItem);
 
             return new JsonResult(sensor);
         }
