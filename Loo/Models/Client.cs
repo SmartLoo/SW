@@ -71,7 +71,7 @@ namespace Loo.Models
         public float SensorBattery { get; set; }
 
         [JsonProperty(PropertyName = "Timestamp")]
-        public float Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
 
     }
 }

@@ -21,4 +21,7 @@
   <ItemGroup>
     <Compile Remove="Models\Location.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\Home\Index.html" />
+  </ItemGroup>
 </Project>
