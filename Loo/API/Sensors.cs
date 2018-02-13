@@ -55,24 +55,37 @@ namespace Loo.API
         /// Gets buildings associated with client.
         /// </summary>
         /// <returns>JSON array of buildings.</returns>
-        /// <param name="clientName">Client name.</param>
+        /// <param name="clientId">Client ID.</param>
         [HttpGet("api/buildings")]
-        public JsonResult GetBuildings(string clientName)
+        public JsonResult GetBuildings(string clientId)
         {
-            var buildings = _ctx.Distinct(x => x.BuildingName, "{\"ClientName\" : \"" + clientName + "\"}").ToList();
+            var buildings = _ctx.Distinct(x => x.BuildingName, "{\"ClientId\" : \"" + clientId + "\"}").ToList();
             return new JsonResult(buildings);
         }
 
         /// <summary>
-        /// Gets Loo connected restrooms in a given building.
+        /// Gets list of Loo connected restroom names in a given building.
         /// </summary>
         /// <returns>JSON array of restroom names for a given building.</returns>
-        /// <param name="clientName">Client name.</param>
+        /// <param name="clientId">Client name.</param>
         /// <param name="buildingName">Building name.</param>
         [HttpGet("api/restrooms")]
-        public JsonResult GetRestrooms(string clientName, string buildingName)
+        public JsonResult GetRestrooms(string clientId, string buildingName)
         {
-            var restrooms = _ctx.Distinct(x => x.LocationName, "{\"ClientName\" : \"" + clientName + "\", \"BuildingName\" : \"" + buildingName + "\"}").ToList();
+            var restrooms = _ctx.Distinct(x => x.LocationName, "{\"ClientId\" : \"" + clientId + "\", \"BuildingName\" : \"" + buildingName + "\"}").ToList();
+            return new JsonResult(restrooms);
+        }
+
+        /// <summary>
+        /// Gets all sensors for a given client and building.
+        /// </summary>
+        /// <returns>JSON array of sensors for a given building.</returns>
+        /// <param name="clientId">Client identifier.</param>
+        /// <param name="buildingName">Building name.</param>
+        [HttpGet("api/sensors")]
+        public JsonResult GetSensors(string clientId, string buildingName)
+        {
+            var restrooms = _ctx.Find("{\"ClientId\" : \"" + clientId + "\", \"BuildingName\" : \"" + buildingName + "\"}").ToList();
             return new JsonResult(restrooms);
         }
 
