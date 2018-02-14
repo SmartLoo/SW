@@ -90,6 +90,20 @@ namespace Loo.API
         }
 
         /// <summary>
+        /// Gets all sensors for a given client, building, and specified restroom.
+        /// </summary>
+        /// <returns>The sensors.</returns>
+        /// <param name="clientId">Client identifier.</param>
+        /// <param name="buildingName">Building name.</param>
+        /// <param name="restroomName">Restroom name.</param>
+        [HttpGet("api/restroom")]
+        public JsonResult GetSensors(string clientId, string buildingName, string restroomName)
+        {
+            var restrooms = _ctx.Find("{\"ClientId\" : \"" + clientId + "\", \"BuildingName\" : \"" + buildingName + "\", \"LocationName\" : \"" + restroomName + "\"}").ToList();
+            return new JsonResult(restrooms);
+        }
+
+        /// <summary>
         /// Updates sensor value and battery level.
         /// </summary>
         /// <returns>Updated sensor information.</returns>

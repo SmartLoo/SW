@@ -11,10 +11,16 @@
     <link href="~/css/loo.css" rel="stylesheet">
 </head>
 <body ng-app="app" ng-controller="restroomController as vm">
+    <nav id="restroomSelector" class="navmenu navmenu-default navmenu-fixed-left offcanvas" role="navigation">
+        <ul class="nav navmenu-nav">
+            <li ng-repeat="r in vm.Restrooms" class="push-menu item">{{r}}</li>
+        </ul>
+    </nav>
+        
     <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light">
         <div class="navbar-brand" href="#">
-            <button class="btn btn-default btn-round">
-                <i class="fas fa-location-arrow"></i>
+            <button class="btn btn-default btn-round" data-toggle="offcanvas" data-target="#restroomSelector" data-canvas="body">
+                <i class="fas fa-list-ul"></i>        
             </button>
         </div>
         <div class="">
@@ -32,17 +38,13 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>College of Arts and Sciences</h1>
-                <h4>
-                    Details
-                    <i class="fas fa-caret-right"></i>
-                </h4>
             </div>
         </div>
-        <div class="spacer row">
+        <div class="spacer-sm row">
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <h4>Quick View</h4>
+                <h4>Sensors</h4>
                 <div class="row">
                         <div ng-repeat="s in vm.Sensors" class="col-sm-4">
                     <div class="card mb-4">
