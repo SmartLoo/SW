@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,700" rel="stylesheet">
     <link href="~/css/site.css" rel="stylesheet">
     <link href="~/css/loo.css" rel="stylesheet">
+    <!----<script src="~/js/site.js"></script>--->
+    
 </head>
 <body ng-app="app" ng-controller="collectionController as vm">
     <div class="dots"></div>
@@ -53,8 +55,33 @@
                                 <div class="card-text">
                                     <div class="text-muted">{{s.LocationName}}</div>
                                     <br>
+                                       
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{s.SensorValue}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( s.SensorValue + '%' ) }"></div>
+
+                                        <script type="text/javascript">
+                                            function progressbar(sensorID, sensordata) {
+                                                var sensorType = sensorID[0];
+                                                var sensordata;
+                                                if (sensorType == 'W')
+                                                    if (sensordata == 0)
+                                                        document.getElementsByClassName("progress-bar").setAttribute("ngstyle", "{width : 0 + '%' ) }");
+                                                    else
+                                                        document.getElementsByClassName("progress-bar").setAttribute("ngstyle", "{width : 100 + '%' ) }");
+                                                if (sensorType == 'R')
+                                                    document.getElementsByClassName("progress-bar").setAttribute("ngstyle", "{width :" + ' "' + (sensordata / 25 * 100) + '" ' + "'%' ) }");
+                                                if (sensordata == "S")
+                                                    if (sensordata <= 0)
+                                                        document.getElementsByClassName("progress-bar").setAttribute("ngstyle", "{width :" + ' "' + (sensordata / 90 * 100) + '" ' + "'%' )}");
+                                                    else if (sensordata >= 90)
+                                                        document.getElementsByClassName("progress-bar").setAttribute("ngstyle", "{width : 100 + '%' ) }");
+                                                    else
+                                                        document.getElementsByClassName("progress-bar").setAttribute("ngstyle", "{width :" + ' "' + (sensordata / 90 * 100) + '" ' + " '%' ) }");
+                                                setTimeout(progressbar, 5000);
+                                            };
+
+                                        </script>
+                                        <!---<p id="sensordata"</p>--->
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{s.SensorValue}}" aria-valuemin="0" aria-valuemax="100" ng-style=progressbar{{(s.SensorID}}, {{s.SensorValue}})></div>
                                     </div>
                                 </div>
                             </div>
@@ -97,6 +124,7 @@
         </div>
     </nav>
 </body>
+
 <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
 <script src="~/js/angular/app.js"></script>
