@@ -28,6 +28,9 @@ namespace Loo.Models
         [JsonProperty(PropertyName = "ClientName")]
         public string ClientName { get; set; }
 
+        [JsonProperty(PropertyName = "ClientId")]
+        public string ClientId { get; set; }
+
         [JsonProperty(PropertyName = "BuildingName")]
         public string BuildingName { get; set; }
 
