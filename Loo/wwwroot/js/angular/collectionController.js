@@ -26,8 +26,8 @@
 
         });
 
-        $scope.progressbar(function (sensorID, sensordata1) {
-            var sensorType = sensorID[0];
+        $scope.progressbar(function () {
+            var sensorType = "W";
 
             var sensordata = sensordata1;
             if (sensorType == 'W')
@@ -39,11 +39,11 @@
                     window.alert("width: 100%");
                     return ("width: 100%");
                 }
-            if (sensorType == 'R') {
+            else if (sensorType == 'R') {
                 window.alert("width: " + (sensordata / 25 * 100) + "%");
                 return ("width: " + (sensordata / 25 * 100) + "%");
             }
-            if (sensordata == "S")
+            else if (sensordata == 'S')
                 if (sensordata <= 0) {
                     window.alert("width: 0%");
                     return ("width: 0%");
@@ -59,7 +59,6 @@
             setTimeout(progressbar, 5000);
 
         });
-
-
     };
 })();
+

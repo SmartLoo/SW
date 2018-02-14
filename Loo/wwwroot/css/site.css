@@ -18,7 +18,8 @@ body {
     text-align: left;
     background: #83a4d4; /* fallback for old browsers */
     background-image: url('https://freepblog.files.wordpress.com/2012/11/dsc_00911.jpg');
-    background-size: cover
+    background-size: cover;
+    transition: background-color .5s;
 }
 
 .dots {
@@ -26,4 +27,53 @@ body {
     height: calc(100vh - 56px);
     position: absolute;
     width: 100%    
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.4s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+}
+
+#navbar-bran {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+        .sidenav a {
+            font-size: 18px;
+        }
 }
