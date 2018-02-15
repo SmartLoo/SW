@@ -35,5 +35,32 @@
                     vm.Sensors = response.data;
             });
         }
+
+        vm.progressBar = function(SensorId, SensorValue) {
+                var sensorType = SensorId[0].slice(0,1);
+                var sensordata = SensorValue;
+                if (sensorType == 'W')
+                    if (sensordata == 0) {
+                        return (0);
+                    }
+                    else {
+                        return (100);
+                    }
+                else if (sensorType == 'R') {
+                    return (sensordata / 25 * 100);
+                }
+                else if (sensordata == 'S')
+                    if (sensordata <= 0) {
+                        return (0);
+                    }
+                    else if (sensordata >= 90) {
+                        return (100);
+                    }
+                    else {
+                        return (sensordata / 90 * 100);
+                    }
+                else
+                    return (2);
+            };
     };
 })();
