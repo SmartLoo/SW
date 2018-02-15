@@ -5,7 +5,7 @@
     angular.module("app")
         .controller("restroomController", restroomController);
 
-    function restroomController($http, $timeout, $scope, $interval) {
+    function restroomController($http, $timeout, $scope) {
         var vm = this;
        
         $(function () {
@@ -22,18 +22,7 @@
                                     vm.Sensors = response.data;
                             });
                     });
-                });
-
-                $interval(updateSensors, 5000);
-                                                                                            
+                });                                        
         });
-
-
-        function updateSensors(){
-            $http.get("/api/restroom?clientId=BostonU&buildingName=" + vm.Buildings[0] + "&restroomName=" + vm.Restrooms[0])
-                .then(function(response) {
-                    vm.Sensors = response.data;
-            });
-        }
     };
 })();
