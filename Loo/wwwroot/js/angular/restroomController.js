@@ -6,16 +6,23 @@
         .controller("restroomController", restroomController);
 
     function restroomController($http, $timeout, $scope) {
-
-        // Reference to scope of controller
         var vm = this;
-        vm.Building = "PHO";
-        vm.Location = "1FLOORW";
-        vm.SensorId = "302";
-        vm.Sensors = [1,2,3,4,5,6,7,8,9,10,11,12];
        
         $(function () {
+            $http.get("/api/buildings?clientId=BostonU")
+                .then(function(response) {
+                    vm.Buildings = response.data;
 
+                    $http.get("/api/restrooms?clientId=BostonU&buildingName=" + vm.Buildings[0])
+                        .then(function(response) {
+                            vm.Restrooms = response.data;
+
+                            $http.get("/api/restroom?clientId=BostonU&buildingName=" + vm.Buildings[0] + "&restroomName=" + vm.Restrooms[0])
+                                .then(function(response) {
+                                    vm.Sensors = response.data;
+                            });
+                    });
+                });                                        
         });
     };
 })();

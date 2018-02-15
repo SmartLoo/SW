@@ -35,6 +35,10 @@ h1,h4 {
     height: 14rem
 }
 
+.spacer-sm {
+    height: 1rem
+}
+
 .btn-pill:hover {
     background-color: rgba(128,128,128,.8) !important
 }
@@ -82,4 +86,25 @@ h1,h4 {
 .card-footer {
     padding: 1.75rem 1.25rem;
     border: none
+}
+
+.push-menu.item {
+    width: 100%;
+    padding: 1em;
+    text-align: center
+}
+
+.navmenu {
+    background-color: white;
+}
+
+.navmenu-nav > li:not(:last-child):after {
+    border-bottom-style: solid;
+    border-color: darkgray;
+    border-bottom-width: 1px
+}
+
+.push-menu.item:hover {
+    background-color: lightgray;
+    cursor: pointer      
 }
