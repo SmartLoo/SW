@@ -112,6 +112,18 @@ namespace Loo.API
         public JsonResult UpdateSensor([FromBody] SensorUpdate s)
         {
             var sensor = _ctx.Find("{\"SensorId\" : \"" + s.SensorId + "\"}").FirstOrDefault();
+
+            /*
+            if (sensor.SensorId[0] == 'S')
+            {
+                sensor.SensorValue += 1;
+            }
+            else 
+            {
+                sensor.SensorValue = s.Value;
+            }
+            */
+
             sensor.SensorValue = s.Value;
             sensor.SensorBattery = s.Battery;
 
