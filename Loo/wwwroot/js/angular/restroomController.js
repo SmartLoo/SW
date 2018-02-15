@@ -50,6 +50,12 @@
                     return (sensordata / 25 * 100);
                 }
                 else if (sensordata == 'S')
+                    /*
+                    normalizedValue = (SensorValue / 1714) * 100;
+                    return normalizedValue;
+                    */
+
+
                     if (sensordata <= 0) {
                         return (0);
                     }
