@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Loo - Analytics Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,700" rel="stylesheet">
+    <link href="~/css/registration.css" rel="stylesheet">
+</head>
+<body ng-app="app" ng-controller="registrationController as vm">
+    <nav class="container-fluid navbar navbar-expand-lg">
+        <div class="navbar-brand" href="#">
+            SmartLoo
+        </div>
+    </nav>
+    <hr>
+    <div class="container-fluid registration-container">
+        <div class="row justify-content-lg-center align-items-center">
+            <div class="col-sm-12 col-lg-4 mx-auto">
+                <form>
+                <div class="form-row">
+                    <div class="col">
+                      <input ng-model="vm.Reg.FirstName" type="text" class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col">
+                      <input ng-model="vm.Reg.LastName" type="text" class="form-control" placeholder="Last name">
+                    </div>
+                  </div>
+                  <br>     
+                  <div class="form-group">
+                    <input ng-model="vm.Reg.Email" type="email" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Email">
+                  </div>
+                    <div class="form-group">
+                    <input ng-model="vm.Reg.EmailConfirm" type="email" class="form-control" id="registerEmailConfirm" aria-describedby="emailHelp" placeholder="Confirm email">
+                  </div>
+                  <div class="form-group">
+                    <input ng-model="vm.Reg.Password" type="password" class="form-control" id="registerPassword" placeholder="Password">
+                  </div>
+                    <div class="form-group">
+                        <input ng-model="vm.Reg.RegistrationCode" type="text" class="form-control" id="registerCode" aria-describedby="registerCodeHelp" placeholder="Registration code">
+                    <small id="registerCodeHelp" class="form-text text-muted">32 character registration code provided by Loo.</small>
+                  </div>
+                  <button ng-click="vm.Register()" type="button" class="btn btn-primary btn-block">Activate Account</button>
+                </form>
+            </div>
+        </div>  
+    </div>
+</body>
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+<script src="~/js/angular/app.js"></script>
+<script src="~/js/angular/registrationController.js"></script>
+</html>

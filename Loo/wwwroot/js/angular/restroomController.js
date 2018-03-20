@@ -7,6 +7,7 @@
 
     function restroomController($http, $timeout, $scope, $interval) {
         var vm = this;
+        vm.SelectedRestroom = "";
        
         $(function () {
             $http.get("/api/buildings?clientId=BostonU")
@@ -16,8 +17,9 @@
                     $http.get("/api/restrooms?clientId=BostonU&buildingName=" + vm.Buildings[0])
                         .then(function(response) {
                             vm.Restrooms = response.data;
+                            vm.SelectedRestroom = vm.Restrooms[0];
 
-                            $http.get("/api/restroom?clientId=BostonU&buildingName=" + vm.Buildings[0] + "&restroomName=" + vm.Restrooms[0])
+                            $http.get("/api/restroom?clientId=BostonU&buildingName=" + vm.Buildings[0] + "&restroomName=" + vm.SelectedRestroom)
                                 .then(function(response) {
                                     vm.Sensors = response.data;
                             });
@@ -53,9 +55,7 @@
                     /*
                     normalizedValue = (SensorValue / 1714) * 100;
                     return normalizedValue;
-                    */
-
-
+                    */           
                     if (sensordata <= 0) {
                         return (0);
                     }

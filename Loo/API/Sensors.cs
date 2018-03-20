@@ -141,6 +141,12 @@ namespace Loo.API
             return new JsonResult(sensor);
         }
 
+        [HttpPost("api/add_sensor")]
+        public JsonResult AddSensor([FromBody] SensorRegistration r)
+        {
+            return new JsonResult("GOOD");
+        }
+
     }
 
     public class SensorUpdate
@@ -151,5 +157,17 @@ namespace Loo.API
 		public float Value { get; set; }
 		[JsonProperty(PropertyName = "batteryLevel")]
 		public float Battery { get; set; }
+    }
+
+    public class SensorRegistration
+    {
+        [JsonProperty(PropertyName = "sensorId")]
+        public string SensorId { get; set; }
+        [JsonProperty(PropertyName = "sensorName")]
+        public string SensorName { get; set; }
+        [JsonProperty(PropertyName = "calibrationValue")]
+        public string CalibrationValue { get; set; }
+        [JsonProperty(PropertyName = "sensorPlacement")]
+        public string SensorPlacement { get; set; }
     }
 }

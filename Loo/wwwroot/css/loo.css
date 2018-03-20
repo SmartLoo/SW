@@ -1,6 +1,6 @@
 ﻿.container {
     margin-left: 0;
-    margin-rigt: 0
+    margin-right: 0
 }
 
 .btn-round {
@@ -107,4 +107,16 @@ h1,h4 {
 .push-menu.item:hover {
     background-color: lightgray;
     cursor: pointer      
+}
+
+.sensor-detail-link {
+    cursor: pointer;
+    text-decoration: none;
+    color: #6c757d !important
+}
+
+.sensor-detail-link:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: #505356 !important
 }
