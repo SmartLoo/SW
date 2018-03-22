@@ -12,7 +12,7 @@
 <body ng-app="app" ng-controller="registrationController as vm">
     <nav class="container-fluid navbar navbar-expand-lg">
         <div class="navbar-brand" href="#">
-            SmartLoo
+            Project Loo
         </div>
     </nav>
     <hr>
@@ -22,25 +22,30 @@
                 <form>
                 <div class="form-row">
                     <div class="col">
-                      <input ng-model="vm.Reg.FirstName" type="text" class="form-control" placeholder="First name">
+                      <input ng-model="vm.Reg.FirstName" id="firstName" type="text" class="form-control" placeholder="First name">
+                        <div class="invalid-feedback">
+                            What should we call you?
+                        </div>
                     </div>
                     <div class="col">
-                      <input ng-model="vm.Reg.LastName" type="text" class="form-control" placeholder="Last name">
+                      <input ng-model="vm.Reg.LastName" id="lastName" type="text" class="form-control" placeholder="Last name">
+                        <div class="invalid-feedback">
+                            What is your last name?
+                        </div>
                     </div>
                   </div>
                   <br>     
                   <div class="form-group">
-                    <input ng-model="vm.Reg.Email" type="email" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Email">
+                    <input ng-model="vm.Reg.Email" type="text" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Email">
+                        <div class="invalid-feedback">
+                        Oops... emails must match.
+                      </div>
                   </div>
                     <div class="form-group">
-                    <input ng-model="vm.Reg.EmailConfirm" type="email" class="form-control" id="registerEmailConfirm" aria-describedby="emailHelp" placeholder="Confirm email">
+                    <input ng-model="vm.Reg.EmailConfirm" type="text" class="form-control" id="registerEmailConfirm" aria-describedby="emailHelp" placeholder="Confirm email">
                   </div>
                   <div class="form-group">
-                    <input ng-model="vm.Reg.Password" type="password" class="form-control" id="registerPassword" placeholder="Password">
-                  </div>
-                    <div class="form-group">
-                        <input ng-model="vm.Reg.RegistrationCode" type="text" class="form-control" id="registerCode" aria-describedby="registerCodeHelp" placeholder="Registration code">
-                    <small id="registerCodeHelp" class="form-text text-muted">32 character registration code provided by Loo.</small>
+                    <input ng-model="vm.Reg.Password" type="password" class="form-control" id="registerPassword" placeholder="Password">                       
                   </div>
                   <button ng-click="vm.Register()" type="button" class="btn btn-primary btn-block">Activate Account</button>
                 </form>
