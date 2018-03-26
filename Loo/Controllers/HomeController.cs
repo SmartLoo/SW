@@ -5,17 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Loo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Loo.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         [Route("/")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         [Route("restrooms")]
         public IActionResult Restrooms()
         {

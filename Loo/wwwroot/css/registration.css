@@ -20,17 +20,15 @@ body {
 }
 
 .navbar-brand {
-    font-size: 2em;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    text-align: center;
-    margin: 0 auto
+    font-size: 1.5em;
+    margin: 0 
 }
 
 .navbar {
-    margin-top: 3em;
-    margin-bottom: 3em
+    margin-top: 1em;
+    margin-bottom: 2em;
+    box-shadow: 0 3px 2px rgba(0,0,0,0.05);
+    padding-bottom: 1em
 }
 
 .registration-container {
@@ -40,4 +38,54 @@ body {
 .form-control {
     line-height: 2.5em;
     border-radius: .12rem
+}
+
+.btn-activate {
+    border-radius: .12rem;
+    line-height: 2.5em;
+    background-color: #30b2c6;
+    border-color: #30b2c6
+}
+
+.btn-activate:hover {
+    background-color: #2796a7;
+    border-color: #30b2c6
+}
+
+.get-started {
+    font-weight: 100
+}
+
+.get-started-text {
+    font-weight: 200;
+    font-size: 1em
+}
+
+.welcome-block {
+    margin-bottom: 3em;
+    margin: 0 auto;
+    padding-bottom: 2em
+}
+
+.login-form.is-invalid > .invalid-feedback {
+    display: block;
+    background-color: #f59b23;
+    border-color: #f59b23;
+    border-radius: .12rem;
+    color: #fff;
+    line-height: 2.5em
+}
+
+.VMPhoe {
+    bottom: 0;
+    overflow: hidden;
+    position: absolute;
+    -webkit-transition: all .5s;
+    transition: all .5s;
+    width: 100%;
+    z-index: -1
+}
+
+svg {
+    transform: translate(-1500px)
 }

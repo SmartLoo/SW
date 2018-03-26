@@ -24,6 +24,41 @@ namespace Loo.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [Route("/login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("/logout")]
+        public async Task<IActionResult> LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+            return new JsonResult("Logout Successful");
+        }
+
+        [HttpPost]
+        [Route("/login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] LoginViewModel model)
+        {
+            var result = await _signInManager.PasswordSignInAsync(model.Username,
+                model.Password, false,false); 
+
+            if (result.Succeeded) 
+            {
+                return new JsonResult("202");
+            } 
+            else 
+            {
+                return new JsonResult(result.ToString());
+            }                       
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         [Route("/register")]
         public IActionResult Registration()
         {

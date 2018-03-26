@@ -5,7 +5,7 @@
     angular.module("app")
         .controller("registrationController", registrationController);
 
-    function registrationController($http, $timeout, $scope) {
+    function registrationController($http, $timeout, $scope, $window) {
 
         var vm = this;
 
@@ -17,11 +17,63 @@
             "Password" : ""
         };
 
+        var log = {
+            Username : "",
+            Password : ""
+        };
+
         vm.Reg = form;
+        vm.Log = log;
+        vm.LoginSuccess = false;
        
         $(function () {
-                                     
+            $('#fullpage').fullpage();                   
         });
+
+        vm.Login = function() {
+            var isValid = true;
+
+            if (vm.Log.Username.length < 1)
+            {
+                isValid = false;
+                $('#loginEmail').addClass('is-invalid');
+            }
+            else
+            {
+                $('#loginEmail').removeClass('is-invalid');
+            }
+
+            if (vm.Log.Password.length < 1)
+            {
+                isValid = false;
+                $('#loginPassword').addClass('is-invalid');
+            }
+            else
+            {
+                $('#loginPassword').removeClass('is-invalid');
+            }
+
+            /* post request for sign in */
+            if (isValid)
+            {
+                /* redirect to dashboard */
+                $('#loginButton').removeClass('is-invalid');
+
+                $http.post("/login", vm.Log)
+                .then(function(response) {             
+                    if (response.data != "202")
+                    {
+                        /* show form errors */
+                        $('#loginForm').addClass('is-invalid');
+                    }
+                    else 
+                    {
+                        $window.location.href = '/';
+                    }
+                });
+            }
+
+        }
 
         vm.Register = function() {
 

@@ -55,7 +55,7 @@ namespace Loo
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 // If the LoginPath isn't set, ASP.NET Core defaults 
                 // the path to /Account/Login.
-                options.LoginPath = "/Account/Login";
+                options.LoginPath = "/login";
                 // If the AccessDeniedPath isn't set, ASP.NET Core defaults 
                 // the path to /Account/AccessDenied.
                 options.AccessDeniedPath = "/Account/AccessDenied";

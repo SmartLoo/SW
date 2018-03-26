@@ -19,41 +19,30 @@
     <div class="container-fluid registration-container">
         <div class="row justify-content-lg-center align-items-center">
             <div class="welcome-block">
-                <h1 class="get-started text-center">Ready to get started?</h1>
-                <h3 class="get-started-text text-center">Before starting setup, let's get you registered.</h3>
+                <h1 class="get-started text-center">Login</h1>
+                <h3 class="get-started-text text-center">If you don''t have an account, <a href="/register">register here.</a></h3>
             </div>
         </div>
         <div class="row justify-content-lg-center align-items-center">
             <div class="col-sm-12 col-lg-4 mx-auto">
-                <form>
-                <div class="form-row">
-                    <div class="col">
-                      <input ng-model="vm.Reg.FirstName" id="firstName" type="text" class="form-control" placeholder="First name">
-                        <div class="invalid-feedback">
-                            What should we call you?
-                        </div>
-                    </div>
-                    <div class="col">
-                      <input ng-model="vm.Reg.LastName" id="lastName" type="text" class="form-control" placeholder="Last name">
-                        <div class="invalid-feedback">
-                            What is your last name?
-                        </div>
-                    </div>
-                  </div>
-                  <br>     
+                <form class="login-form" id="loginForm">
+                <div class="invalid-feedback text-center alert alert-warning">
+                    Incorrect username or password.
+                </div> 
                   <div class="form-group">
-                    <input ng-model="vm.Reg.Email" type="text" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Email">
-                        <div class="invalid-feedback">
-                        Oops... emails must match.
-                      </div>
+                    <input ng-model="vm.Log.Username" type="text" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="Email">
+                    <div class="invalid-feedback">
+                        Please enter a valid email address.
+                    </div>
                   </div>
                     <div class="form-group">
-                    <input ng-model="vm.Reg.EmailConfirm" type="text" class="form-control" id="registerEmailConfirm" aria-describedby="emailHelp" placeholder="Confirm email">
+                    <input ng-model="vm.Log.Password" type="password" class="form-control" id="loginPassword" aria-describedby="passwordHelp" placeholder="Password">
+                    <div class="invalid-feedback">
+                        Please enter your password.
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <input ng-model="vm.Reg.Password" type="password" class="form-control" id="registerPassword" placeholder="Password">                       
-                  </div>
-                  <button ng-click="vm.Register()" type="button" class="btn btn-activate btn-primary btn-block">Activate Account</button>
+                    <button ng-click="vm.Login()" type="button" id="loginButton" class="btn btn-activate btn-primary btn-block">Login</button>
+
                 </form>
             </div>
         </div>  
