@@ -42,7 +42,7 @@ namespace Loo.Controllers
         [HttpPost]
         [Route("/login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] LoginViewModel model)
+        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Username,
                 model.Password, false,false); 
@@ -68,34 +68,24 @@ namespace Loo.Controllers
         [HttpPost]
         [Route("/register")]
         [AllowAnonymous]
-        public async Task<HttpResponseMessage> Register([FromBody] RegisterViewModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
-            HttpResponseMessage res = new HttpResponseMessage();
+            var user = new AuthenticatedUser { UserName = model.Email, Email = model.Email };
+            user.Company = "BU";
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.IsAdmin = true;
 
-            if (ModelState.IsValid)
-            {
-                var user = new AuthenticatedUser { UserName = model.Email, Email = model.Email };
-                user.Company = "BU";
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.RegistrationCode = model.RegistrationCode;
-
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    res.StatusCode = HttpStatusCode.OK;
-                    res.ReasonPhrase = "Account registered successfully";
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                }
-                else
-                {
-                    res.StatusCode = HttpStatusCode.BadRequest;
-                    res.ReasonPhrase = result.ToString();
-                }
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {                   
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return new JsonResult("202");
             }
-
-            return res;
+            else
+            {
+                return new JsonResult(result.ToString());
+            }
         }
     }
 }

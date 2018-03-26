@@ -12,8 +12,6 @@ namespace Loo.Models
         [Required]
         public string Company { get; set; }
         [Required]
-        public string RegistrationCode { get; set; }
-        [Required]
         public bool IsAdmin { get; set; }
     }
 }

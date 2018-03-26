@@ -117,7 +117,14 @@
             {
                 $http.post("/register", vm.Reg)
                 .then(function(response) {
-                    console.log(response);
+                    if (response.data != "202")
+                    {
+                        /* show form errors */
+                    }
+                    else 
+                    {
+                        $window.location.href = '/';
+                    }
                 });
             }
         }

@@ -1,19 +1,22 @@
 ﻿<Properties StartupConfiguration="{69944103-D7B1-4EB0-8367-42D1C3F7908A}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Startup.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/AccountController.cs">
     <Files>
       <File FileName="Views/Account/Registration.cshtml" Line="14" Column="58" />
-      <File FileName="wwwroot/js/angular/registrationController.js" Line="67" Column="38" />
+      <File FileName="wwwroot/js/angular/registrationController.js" Line="123" Column="1" />
       <File FileName="Views/Account/Login.cshtml" Line="28" Column="40" />
       <File FileName="wwwroot/css/registration.css" Line="73" Column="27" />
-      <File FileName="Controllers/AccountController.cs" Line="39" Column="24" />
+      <File FileName="Controllers/AccountController.cs" Line="77" Column="1" />
       <File FileName="Controllers/HomeController.cs" Line="19" Column="10" />
       <File FileName="Models/RegisterViewModel.cs" Line="19" Column="2" />
-      <File FileName="Startup.cs" Line="58" Column="40" />
+      <File FileName="Startup.cs" Line="58" Column="44" />
+      <File FileName="Models/AuthenticatedUser.cs" Line="13" Column="44" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/becorn/Projects/Loo/Loo/Controllers/AccountController.cs" relfile="Controllers/AccountController.cs" line="73" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.Loo PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
