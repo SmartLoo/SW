@@ -87,5 +87,21 @@ namespace Loo.Controllers
                 return new JsonResult(result.ToString());
             }
         }
+
+        [HttpGet]
+        [Route("/setup_master")]
+        [Authorize]
+        public IActionResult SetupMaster()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("/setup_master")]
+        [Authorize]
+        public async Task<IActionResult> SetupMaster([FromBody] SetupMasterViewModel model)
+        {
+            return new JsonResult(model);
+        }
     }
 }
