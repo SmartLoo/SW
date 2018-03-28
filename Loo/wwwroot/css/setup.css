@@ -40,14 +40,14 @@ body {
     border-radius: .12rem
 }
 
-.btn-activate {
+.btn-save {
     border-radius: .12rem;
     line-height: 2.5em;
     background-color: #30b2c6;
     border-color: #30b2c6
 }
 
-.btn-activate:hover {
+.btn-save:hover {
     background-color: #2796a7;
     border-color: #30b2c6
 }
@@ -91,12 +91,51 @@ svg {
 }
 
 .slide-out {
-    transform: translateX(-5000px);
+    animation: slide-out 1s forwards
 }
 
 .step {
     -webkit-transition: 1s ease-in-out;
     -moz-transition: 1s ease-in-out;
     -o-transition: 1s ease-in-out;
-    transition: 1s ease-in-out;
+    transition: 1s ease-in-out
+}
+
+.hidden-step {
+    display: none;
+}
+
+.slide-in {
+    animation: slide-in 1s backwards
+}
+
+.dissolve {
+    animation: dissolve 1s forwards
+}
+
+@keyframes slide-in {
+    0% {
+        display: block !important
+        -webkit-transform: translateX(-200%);
+        transform: translateX(-200%)
+    }
+}
+
+@keyframes dissolve {
+    100% {
+        transition: 1s ease-in-out;
+        opacity: 0
+    }
+}
+
+@keyframes slide-out {
+    50% {
+        -webkit-transform: translateX(-5%);
+        transform: translateX(-5%)
+    }
+
+    100% {
+        -webkit-transform: translateX(200%);
+        transform: translateX(200%)
+    }
 }
