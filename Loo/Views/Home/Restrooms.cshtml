@@ -59,8 +59,8 @@
                                 </div>
                             </div>
                             <div class="card-footer bg-transparent text-muted">
-                                <i class="fas fa-battery-half float-right"></i>
-                                <a href="#" class="float-left sensor-detail-link">Show Detail</a> 
+                                <span class="sensor-detail float-right">{{vm.progressBar(s.SensorId, s.SensorValue) | number:0}}<span ng-if="s.SensorId[0] != 'W'">%</span></span>
+                                <span class="float-left sensor-detail">{{s.TimeStamp | date:'M-dd-yy hh:mma'}}</span>
                             </div>
                         </div>
                     </div>

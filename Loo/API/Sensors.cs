@@ -104,7 +104,7 @@ namespace Loo.API
         }
 
         /// <summary>
-        /// Updates sensor value and battery level.
+        /// Updates sensor value and timestamp.
         /// </summary>
         /// <returns>Updated sensor information.</returns>
         /// <param name="s">S.</param>
@@ -113,26 +113,26 @@ namespace Loo.API
         {
             var sensor = _ctx.Find("{\"SensorId\" : \"" + s.SensorId + "\"}").FirstOrDefault();
 
-            /*
             if (sensor.SensorId[0] == 'S')
             {
                 sensor.SensorValue += 1;
             }
-            else 
+            else if (sensor.SensorId[0] == 'R')
+            {
+                sensor.SensorValue = (s.Value - 10) * (float)1.17;
+            }
+            else
             {
                 sensor.SensorValue = s.Value;
             }
-            */
 
-            sensor.SensorValue = s.Value;
-            sensor.SensorBattery = s.Battery;
+            sensor.TimeStamp = DateTime.Now;
 
             var historyItem = new SensorHistory()
             {
                 SensorId = sensor.SensorId,
                 SensorValue = sensor.SensorValue,
-                SensorBattery = sensor.SensorBattery,
-                Timestamp = DateTime.Now
+                Timestamp = sensor.TimeStamp
             };
 
             _ctx.ReplaceOne("{\"SensorId\" : \"" + s.SensorId + "\"}", sensor);
@@ -155,8 +155,6 @@ namespace Loo.API
         public string SensorId { get; set; }
 		[JsonProperty(PropertyName = "sensorValue")]
 		public float Value { get; set; }
-		[JsonProperty(PropertyName = "batteryLevel")]
-		public float Battery { get; set; }
     }
 
     public class SensorRegistration

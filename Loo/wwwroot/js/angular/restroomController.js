@@ -49,7 +49,7 @@
                         return (100);
                     }
                 else if (sensorType == 'R') {
-                    return (sensordata / 25 * 100);
+                    return (((85-sensordata) / 85) * 100);
                 }
                 else if (sensordata == 'S')
                     /*
