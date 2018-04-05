@@ -9,6 +9,16 @@
         var vm = this;
         vm.SelectedRestroom = "";
        
+        $(".verification-input").keyup(function() {
+          var len = $(this.value.length);
+          if (len.length > 0)
+          {
+            var inputs = $(this).closest('form').find(':input');
+            inputs.eq( inputs.index(this)+ 1 ).focus();
+          }
+
+        });
+
         $(function () {
             $http.get("/api/buildings?clientId=BostonU")
                 .then(function(response) {

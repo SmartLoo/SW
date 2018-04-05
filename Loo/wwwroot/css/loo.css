@@ -120,3 +120,32 @@ h1,h4 {
     text-decoration: none;
     color: #505356 !important
 }
+
+.verification-input {
+    line-height: 2.0em;
+    text-align: center;
+    padding: 10px 0px 10px 0px;
+    border: 1.5px solid #ced4da
+}
+
+.verification-box:first-child {
+    padding-left: 5px
+}
+
+.verification-box {
+    padding-left: 5px;
+    padding-right: 5px
+}
+
+.verification-box:last-of-type {
+    padding-right: 5px;
+}
+
+.verification-modal {
+    padding-left: 2em;
+    padding-right: 2em
+}
+
+.loo-kit-img {
+    padding-bottom: 1em
+}
