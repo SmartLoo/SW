@@ -54,7 +54,7 @@
                                 <h5 class="card-title">{{s.SensorName}}</h5>
                                 <div class="card-text">
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.progressBar(s.SensorId, s.SensorValue)}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( vm.progressBar(s.SensorId, s.SensorValue) + '%' ) }"></div>
+                                        <div ng-class="{'bg-danger': s.SensorId[0] == 'W' && s.SensorValue == 1}" class="progress-bar" role="progressbar" aria-valuenow="{{vm.progressBar(s.SensorId, s.SensorValue)}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( vm.progressBar(s.SensorId, s.SensorValue) + '%' ) }"></div>
                                     </div>
                                 </div>
                             </div>

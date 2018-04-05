@@ -121,6 +121,10 @@ namespace Loo.API
             {
                 sensor.SensorValue = (s.Value - 10) * (float)1.17;
             }
+            else if (sensor.SensorId[0] == 'P')
+            {
+                sensor.SensorValue = s.Value - (float)2.54;
+            }
             else
             {
                 sensor.SensorValue = s.Value;

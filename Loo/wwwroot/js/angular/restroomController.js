@@ -51,7 +51,11 @@
                 else if (sensorType == 'R') {
                     return (((85-sensordata) / 85) * 100);
                 }
-                else if (sensordata == 'S')
+                else if (sensorType == 'P')
+                {
+                    return (((5-sensordata) / 5) * 100);
+                }
+                else if (sensorType == 'S')
                     /*
                     normalizedValue = (SensorValue / 1714) * 100;
                     return normalizedValue;

@@ -1,12 +1,10 @@
 ﻿<Properties StartupConfiguration="{69944103-D7B1-4EB0-8367-42D1C3F7908A}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Home/Restrooms.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="API/Sensors.cs">
     <Files>
       <File FileName="Views/Account/SetupMaster.cshtml" Line="55" Column="17" />
-      <File FileName="wwwroot/js/angular/restroomController.js" Line="53" Column="18" />
-      <File FileName="API/Sensors.cs" Line="27" Column="64" />
-      <File FileName="Models/Client.cs" Line="59" Column="42" />
-      <File FileName="Controllers/AccountController.cs" Line="76" Column="16" />
-      <File FileName="Views/Home/Restrooms.cshtml" Line="43" Column="15" />
+      <File FileName="wwwroot/js/angular/restroomController.js" Line="52" Column="50" />
+      <File FileName="API/Sensors.cs" Line="124" Column="17" />
+      <File FileName="Views/Home/Restrooms.cshtml" Line="57" Column="67" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
