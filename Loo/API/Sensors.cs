@@ -113,6 +113,11 @@ namespace Loo.API
         {
             var sensor = _ctx.Find("{\"SensorId\" : \"" + s.SensorId + "\"}").FirstOrDefault();
 
+            if (sensor == null)
+            {
+                sensor = new Sensor(s.SensorId);         
+            }
+
             if (sensor.SensorId[0] == 'S')
             {
                 sensor.SensorValue += 1;

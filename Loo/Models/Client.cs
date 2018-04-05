@@ -22,6 +22,12 @@ namespace Loo.Models
 
     public class Sensor
     {
+
+        public Sensor(string sensorId)
+        {
+            SensorId = sensorId;
+        }
+
         [JsonProperty(PropertyName = "_id")]
         public ObjectId Id { get; set; }
 
