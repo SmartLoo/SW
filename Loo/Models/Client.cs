@@ -22,7 +22,6 @@ namespace Loo.Models
 
     public class Sensor
     {
-
         public Sensor(string sensorId)
         {
             SensorId = sensorId;
@@ -52,6 +51,9 @@ namespace Loo.Models
         [JsonProperty(PropertyName = "SensorId")]
         public string SensorId { get; set; }
 
+        [JsonProperty(PropertyName = "BridgeId")]
+        public string BridgeId { get; set; }
+
         [JsonProperty(PropertyName = "LocationName")]
         public string LocationName { get; set; }
 
@@ -60,6 +62,12 @@ namespace Loo.Models
 
         [JsonProperty(PropertyName = "SensorValue")]
         public float SensorValue { get; set; }
+
+        [JsonProperty(PropertyName = "CMinDist")]
+        public float CMinDist { get; set; }
+
+        [JsonProperty(PropertyName = "CInitialDist")]
+        public float CInitialDist { get; set; }
 
         [JsonProperty(PropertyName = "TimeStamp")]
         public DateTime TimeStamp { get; set; }

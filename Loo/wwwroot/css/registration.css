@@ -89,3 +89,12 @@ body {
 svg {
     transform: translate(-1500px)
 }
+
+.enableSMS-input {
+    margin-left: 0
+}
+
+.enableSMS-label {
+    margin-left: 1.25em
+}
+

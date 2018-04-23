@@ -18,7 +18,6 @@ namespace Loo.Controllers
             return View();
         }
 
-        [Authorize]
         [Route("restrooms")]
         public IActionResult Restrooms()
         {

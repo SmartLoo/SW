@@ -13,5 +13,9 @@ namespace Loo.Models
         public string Company { get; set; }
         [Required]
         public bool IsAdmin { get; set; }
+        [Required]
+        public string Phone { get; set; }
+        [Required]
+        public bool NotificationOptIn { get; set; }
     }
 }

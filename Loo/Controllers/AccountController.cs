@@ -74,6 +74,8 @@ namespace Loo.Controllers
             user.Company = "BU";
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
+            user.Phone = model.Phone;
+            user.NotificationOptIn = model.Notifications;
             user.IsAdmin = true;
 
             var result = await _userManager.CreateAsync(user, model.Password);
