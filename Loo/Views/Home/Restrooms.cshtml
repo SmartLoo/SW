@@ -110,42 +110,58 @@
         </button>
       </div>
       <div class="modal-body">
-        <img width="200px" class="img-fluid loo-kit-img" src="~/images/loo-kit-code.png">                    
-        <h5>Enter SmartLoo setup code</h5>
-        <h6>Look for the 8-digit setup code in the packaging or on the sensor.</h6>
-        <br>
-        <form>
-          <div class="verification-modal row">
-            <div class="col verification-box">
-              <input ng-model="vm.Verification[0]" maxlength="1" type="text" class="form-control verification-input left-input" autofocus>
-            </div>
-            <div class="col verification-box">
-              <input ng-model="vm.Verification[1]" maxlength="1" type="text" class="form-control verification-input">
-            </div>
-            <div class="col verification-box">
-              <input ng-model="vm.Verification[2]" maxlength="1" type="text" class="form-control verification-input">
-            </div>                
-            <div class="col verification-box">
-              <input ng-model="vm.Verification[3]" maxlength="1" type="text" class="form-control verification-input">
-            </div>
-            <div class="col verification-box">
-              <input ng-model="vm.Verification[4]" maxlength="1" type="text" class="form-control verification-input">
-            </div>
-            <div class="col verification-box">
-              <input ng-model="vm.Verification[5]" maxlength="1" type="text" class="form-control verification-input">
-            </div>
-            <div class="col verification-box">
-              <input ng-model="vm.Verification[6]" maxlength="1" type="text" class="form-control verification-input">
-            </div>
-            <div class="col verification-box">
-              <input ng-model="vm.Verification[7]" maxlength="1" type="text" class="form-control verification-input">
-            </div>        
-          </div>
-        </form>
+        <div id="step1" class="step">
+            <img width="200px" class="img-fluid loo-kit-img" src="~/images/loo-kit-code.png">                    
+            <h5>Enter SmartLoo setup code</h5>
+            <h6>Look for the 8-digit setup code in the packaging or on the sensor.</h6>
+            <br>
+            <form>
+              <div class="verification-modal row">
+                <div class="col verification-box">
+                  <input ng-model="vm.Validation[0]" maxlength="1" type="text" class="form-control verification-input left-input" autofocus>
+                </div>
+                <div class="col verification-box">
+                  <input ng-model="vm.Validation[1]" maxlength="1" type="text" class="form-control verification-input">
+                </div>
+                <div class="col verification-box">
+                  <input ng-model="vm.Validation[2]" maxlength="1" type="text" class="form-control verification-input">
+                </div>                
+                <div class="col verification-box">
+                  <input ng-model="vm.Validation[3]" maxlength="1" type="text" class="form-control verification-input">
+                </div>
+                <div class="col verification-box">
+                  <input ng-model="vm.Validation[4]" maxlength="1" type="text" class="form-control verification-input">
+                </div>
+                <div class="col verification-box">
+                  <input ng-model="vm.Validation[5]" maxlength="1" type="text" class="form-control verification-input">
+                </div>
+                <div class="col verification-box">
+                  <input ng-model="vm.Validation[6]" maxlength="1" type="text" class="form-control verification-input">
+                </div>
+                <div class="col verification-box">
+                  <input ng-model="vm.Validation[7]" maxlength="1" type="text" class="form-control verification-input">
+                </div>        
+              </div>
+            </form>        
+        </div>
+        <div id="step2" class="step hidden-step">
+            <h5>Step 2</h5>
+            <h6></h6>
+            <br>
+            <form>                
+            </form>        
+        </div>
+        <div id="step3" class="step hidden-step">
+            <h5>Step 3</h5>
+            <h6></h6>
+            <br>
+            <form>
+            </form>        
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Continue</button>
+        <button ng-click="vm.ValidateAccessory()" type="button" class="btn btn-primary">Continue</button>
       </div>
     </div>
   </div>

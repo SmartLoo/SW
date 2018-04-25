@@ -1,19 +1,14 @@
 ﻿<Properties StartupConfiguration="{69944103-D7B1-4EB0-8367-42D1C3F7908A}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Models/RegisterViewModel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Home/Restrooms.cshtml">
     <Files>
-      <File FileName="Views/Account/SetupMaster.cshtml" Line="14" Column="45" />
-      <File FileName="wwwroot/js/angular/restroomController.js" Line="10" Column="34" />
-      <File FileName="Views/Home/Restrooms.cshtml" Line="130" Column="19" />
-      <File FileName="Models/Client.cs" Line="68" Column="9" />
-      <File FileName="wwwroot/css/loo.css" Line="151" Column="2" />
-      <File FileName="API/Sensors.cs" Line="112" Column="57" />
-      <File FileName="Controllers/HomeController.cs" Line="10" Column="26" />
-      <File FileName="Models/AuthenticatedUser.cs" Line="21" Column="2" />
-      <File FileName="Views/Account/Registration.cshtml" Line="61" Column="36" />
-      <File FileName="wwwroot/css/registration.css" Line="1" Column="7" />
-      <File FileName="wwwroot/js/angular/registrationController.js" Line="1" Column="1" />
-      <File FileName="Controllers/AccountController.cs" Line="71" Column="71" />
-      <File FileName="Models/RegisterViewModel.cs" Line="13" Column="34" />
+      <File FileName="API/Sensors.cs" Line="171" Column="14" />
+      <File FileName="Controllers/AccountController.cs" Line="29" Column="10" />
+      <File FileName="wwwroot/js/angular/app.js" Line="16" Column="20" />
+      <File FileName="wwwroot/js/angular/restroomController.js" Line="21" Column="12" />
+      <File FileName="Views/Home/Restrooms.cshtml" Line="162" Column="12" />
+      <File FileName="wwwroot/css/registration.css" Line="5" Column="32" />
+      <File FileName="wwwroot/css/loo.css" Line="185" Column="12" />
+      <File FileName="Views/Account/SetupMaster.cshtml" Line="33" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

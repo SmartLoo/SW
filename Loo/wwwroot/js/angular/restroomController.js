@@ -8,7 +8,8 @@
     function restroomController($http, $timeout, $scope, $interval) {
         var vm = this;
         vm.SelectedRestroom = "";
-        vm.Verification = [];
+        vm.Validation = [];
+        vm.CurrentStep = 1;
        
         $(".verification-input").keyup(function() {
           var len = $(this.value.length);
@@ -46,6 +47,19 @@
             });
         }
 
+
+        vm.ValidateAccessory = function()
+        {
+            var accessoryCode = vm.Validation.join('');
+            $http.get("/api/validate" + "?accessoryCode=" + accessoryCode)
+                .then(function(response) {
+                if (response.data != "Invalid"){
+                    vm.NewAccessory = response.data;
+                    vm.AdvanceStep();
+                }
+            });
+        }
+
         vm.progressBar = function(sensorId, sensorValue) {
                 var sensorType = sensorId[0].slice(0,1);
 
@@ -71,5 +85,34 @@
                 else
                     return (2);
             };
+
+        vm.AdvanceStep = function() {
+            var stepId = '#step' + vm.CurrentStep.toString();
+            vm.CurrentStep++;
+            $(stepId).addClass('dissolve');
+        }
+
+
+        function removeElement(event) {
+          if (event.animationName === 'slide-out') {
+            event.target.parentNode.removeChild(event.target);
+
+            var stepId = '#step' + vm.CurrentStep.toString();
+            $(stepId).removeClass('hidden-step');
+            $(stepId).addClass('slide-in');
+          }
+
+          if (event.animationName === 'dissolve') {
+
+              var prevStep = vm.CurrentStep -1;
+              var stepId = '#step' + prevStep.toString();
+              $(stepId).removeClass('dissolve');
+              $(stepId).addClass('slide-out');
+              $(stepId).removeClass('slide-in');
+          }
+        }
+
+        document.body.addEventListener('animationend',removeElement);
+        document.body.addEventListener('webkitAnimationEnd', removeElement);    
     };
 })();

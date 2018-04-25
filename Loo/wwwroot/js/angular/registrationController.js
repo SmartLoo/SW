@@ -25,10 +25,6 @@
         vm.Reg = form;
         vm.Log = log;
         vm.LoginSuccess = false;
-       
-        $(function () {
-            $('#fullpage').fullpage();                   
-        });
 
         vm.Login = function() {
             var isValid = true;

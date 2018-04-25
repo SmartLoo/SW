@@ -156,6 +156,21 @@ namespace Loo.API
             return new JsonResult("GOOD");
         }
 
+        [HttpGet("api/validate")]
+        public JsonResult ValidateAccessory(string accessoryCode)
+        {
+            var sensor = _ctx.Find("{\"SensorId\" : \"" + accessoryCode + "\"}").FirstOrDefault();
+
+            if (sensor != null && sensor.SensorName == "")
+            {
+                return new JsonResult(sensor);
+            }
+            else
+            {
+                return new JsonResult("Invalid");
+            }
+        }
+
     }
 
     public class SensorUpdate
