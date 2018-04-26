@@ -44,6 +44,9 @@ namespace Loo.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
+
+            var user = HttpContext.User;
+                          
             var result = await _signInManager.PasswordSignInAsync(model.Username,
                 model.Password, false,false); 
 

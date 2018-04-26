@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Loo.API
 {
@@ -18,6 +20,7 @@ namespace Loo.API
         private readonly IMongoDatabase _db;
         IMongoCollection<Sensor> _ctx;
         IMongoCollection<SensorHistory> _history;
+        private readonly UserManager<AuthenticatedUser> _userManager;
 
         public Sensors()
         {
@@ -55,11 +58,11 @@ namespace Loo.API
         /// Gets buildings associated with client.
         /// </summary>
         /// <returns>JSON array of buildings.</returns>
-        /// <param name="clientId">Client ID.</param>
         [HttpGet("api/buildings")]
-        public JsonResult GetBuildings(string clientId)
+        public JsonResult GetBuildings()
         {
-            var buildings = _ctx.Distinct(x => x.BuildingName, "{\"ClientId\" : \"" + clientId + "\"}").ToList();
+            var user = User.Identity;
+            var buildings = _ctx.Distinct(x => x.BuildingName, "{\"ClientId\" : \"" + user.Name + "\"}").ToList();
             return new JsonResult(buildings);
         }
 
@@ -70,9 +73,10 @@ namespace Loo.API
         /// <param name="clientId">Client name.</param>
         /// <param name="buildingName">Building name.</param>
         [HttpGet("api/restrooms")]
-        public JsonResult GetRestrooms(string clientId, string buildingName)
+        public JsonResult GetRestrooms(string buildingName)
         {
-            var restrooms = _ctx.Distinct(x => x.LocationName, "{\"ClientId\" : \"" + clientId + "\", \"BuildingName\" : \"" + buildingName + "\"}").ToList();
+            var user = User.Identity;
+            var restrooms = _ctx.Distinct(x => x.LocationName, "{\"ClientId\" : \"" + user.Name + "\", \"BuildingName\" : \"" + buildingName + "\"}").ToList();
             return new JsonResult(restrooms);
         }
 
@@ -83,9 +87,10 @@ namespace Loo.API
         /// <param name="clientId">Client identifier.</param>
         /// <param name="buildingName">Building name.</param>
         [HttpGet("api/sensors")]
-        public JsonResult GetSensors(string clientId, string buildingName)
+        public JsonResult GetSensors(string buildingName)
         {
-            var restrooms = _ctx.Find("{\"ClientId\" : \"" + clientId + "\", \"BuildingName\" : \"" + buildingName + "\"}").ToList();
+            var user = User.Identity;
+            var restrooms = _ctx.Find("{\"ClientId\" : \"" + user.Name + "\", \"BuildingName\" : \"" + buildingName + "\"}").ToList();
             return new JsonResult(restrooms);
         }
 
@@ -120,9 +125,10 @@ namespace Loo.API
         /// <param name="buildingName">Building name.</param>
         /// <param name="restroomName">Restroom name.</param>
         [HttpGet("api/restroom")]
-        public JsonResult GetSensors(string clientId, string buildingName, string restroomName)
+        public JsonResult GetSensors(string buildingName, string restroomName)
         {
-            var restrooms = _ctx.Find("{\"ClientId\" : \"" + clientId + "\", \"BuildingName\" : \"" + buildingName + "\", \"LocationName\" : \"" + restroomName + "\"}").ToList();
+            var user = User.Identity;
+            var restrooms = _ctx.Find("{\"ClientId\" : \"" + user.Name + "\", \"BuildingName\" : \"" + buildingName + "\", \"LocationName\" : \"" + restroomName + "\"}").ToList();
             return new JsonResult(restrooms);
         }
 
@@ -173,10 +179,25 @@ namespace Loo.API
             return new JsonResult(sensor);
         }
 
-        [HttpPost("api/add_sensor")]
-        public JsonResult AddSensor([FromBody] SensorRegistration r)
+        [HttpPost("api/add_accessory")]
+        public async Task<JsonResult> AddAccessoryAsync([FromBody] Sensor s)
         {
-            return new JsonResult("GOOD");
+            var user = User.Identity;
+
+            var sensor = _ctx.Find("{\"SensorId\" : \"" + s.SensorId + "\"}").FirstOrDefault();
+            s.Id = sensor.Id;
+            s.ClientName = user.Name;
+            s.ClientId = user.Name;
+
+            if (sensor != null)
+            {
+                _ctx.ReplaceOne("{\"SensorId\" : \"" + s.SensorId + "\"}", s);
+                return new JsonResult("OK");
+            }
+            else
+            {
+                return new JsonResult("[]");
+            }
         }
 
         [HttpGet("api/validate")]

@@ -140,8 +140,9 @@
                 </div>
                 <div class="col verification-box">
                   <input ng-model="vm.Validation[7]" maxlength="1" type="text" class="form-control verification-input">
-                </div>        
+                </div>
               </div>
+                <br>
             </form>        
         </div>
         <div id="step2" class="step hidden-step">
@@ -168,7 +169,9 @@
                 <input ng-model="vm.NewAccessory.LocationCode" type="text" class="form-control" placeholder="1FLW">
               </div>
             </div>
+            <br>
         </div>
+        <br>
         <div id="step3" class="step hidden-step">
             <h5>Location Details</h5>
             <h6>Great! We found the bridge you're connected to.</h6>
@@ -194,6 +197,7 @@
                 <input ng-model="vm.NewAccessory.LocationCode" type="text" class="form-control" placeholder="1FLW" readonly>
               </div>
             </div>
+            <br>
         </div>
         <div id="step4" class="step hidden-step">
             <h5>Sensor Details</h5>
@@ -204,21 +208,70 @@
                 <input ng-model="vm.NewAccessory.SensorName" type="text" class="form-control" placeholder="Left Paper Towel Dispenser">
               </div>
             </div>
+            <br>
         </div>
         <div id="step5" class="step hidden-step">
             <h5>Calibration</h5>
             <h6>Almost done! Follow the calibration steps carefully.</h6>
             <br>
-            <div class="row">
+            <div ng-if="vm.NewAccessory.SensorId[0] == 'S'" class="row">
               <div class="col-12">
-                <input ng-model="" type="text" class="form-control" placeholder="Placeholder">
+                <label>Enter total number of pumps from manufacturer spec sheet:</label>
+                <input ng-model="vm.NewAccessory.CMinDist" type="number" class="form-control" placeholder="3000">
               </div>
             </div>
+            <div ng-if="vm.NewAccessory.SensorId[0] == 'P'">
+              <div class="form-group">
+                <label>1. Enter minimum roll diameter in (cm):</label>
+                <input ng-model="vm.NewAccessory.CMinDist" type="number" class="form-control" placeholder="50">
+              </div>
+              <div class="form-group">
+                <label>2. Insert full roll and press calibrate:</label>
+                <button ng-click="vm.Calibrate()" class="btn btn-block btn-primary">Calibrate</button>
+              </div>
+              <div class="form-group">
+                <label>3. Calibration value:</label>
+                <input ng-model="vm.NewAccessory.CInitialDist" type="text" class="form-control" readonly>
+                <br>              
+              </div>
+            </div>
+            <div ng-if="vm.NewAccessory.SensorId[0] == 'T'">
+              <div class="form-group">
+                <label>1. Enter minimum roll diameter in (cm):</label>
+                <input ng-model="vm.NewAccessory.CMinDist" type="number" class="form-control" placeholder="50">
+              </div>
+              <div class="form-group">
+                <label>2. Insert full roll and press calibrate:</label>
+                <button ng-click="vm.Calibrate()" class="btn btn-block btn-primary">Calibrate</button>
+                <br>
+              </div>
+              <div class="form-group">
+                <label>3. Calibration value:</label>
+                <input ng-model="vm.NewAccessory.CInitialDist" type="text" class="form-control" readonly>
+                <br>              
+              </div>
+            </div>
+            <div ng-if="vm.NewAccessory.SensorId[0] == 'W'">
+              <div class="form-group">
+                <label>1. Enter distance from sensor to top of liner in (cm):</label>
+                <input ng-model="vm.NewAccessory.CMinDist" type="number" class="form-control" placeholder="50">
+              </div>
+              <div class="form-group">
+                <label>2. Ensure trash can is empty and press calibrate:</label>
+                <button ng-click="vm.Calibrate()" class="btn btn-block btn-primary">Calibrate</button>
+                <br>
+              </div>
+              <div class="form-group">
+                <label>3. Calibration value:</label>
+                <input ng-model="vm.NewAccessory.CInitialDist" type="text" class="form-control" readonly>
+                <br>              
+              </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button ng-click="vm.AdvanceStep()" type="button" class="btn btn-primary">Continue</button>
+        <button ng-if="vm.CurrentStep != 5" ng-click="vm.AdvanceStep()" type="button" class="btn btn-primary">Continue</button>
+        <button data-dismiss="modal" ng-disabled="vm.NewAccessory.CInitialDist == ''" ng-if="vm.CurrentStep == 5" ng-click="vm.RegisterAccessory()" type="button" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>

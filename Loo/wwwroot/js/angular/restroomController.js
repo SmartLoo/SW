@@ -21,11 +21,11 @@
         });
 
         $(function () {
-            $http.get("/api/buildings?clientId=BostonU")
+            $http.get("/api/buildings")
                 .then(function(response) {
                     vm.Buildings = response.data;
 
-                    $http.get("/api/restrooms?clientId=BostonU&buildingName=" + vm.Buildings[0])
+                    $http.get("/api/restrooms?buildingName=" + vm.Buildings[0])
                         .then(function(response) {
                             vm.Restrooms = response.data;
                             vm.SelectedRestroom = vm.Restrooms[0];
@@ -54,6 +54,7 @@
             $http.get("/api/validate" + "?accessoryCode=" + accessoryCode)
                 .then(function(response) {
                 if (response.data != "Invalid"){
+                    vm.CurrentStep++;
                     vm.NewAccessory = response.data;
                     $http.get("/api/bridge" + "?bridgeId=" + vm.NewAccessory.BridgeId)
                         .then(function(response) {
@@ -72,6 +73,10 @@
                                 vm.AdvanceStep(2);  // deprecate on next rev
                             }
                         });
+                }
+                else
+                {
+                    vm.Validation = [];
                 }
             });
         }
@@ -102,10 +107,10 @@
                     return (2);
             };
 
-        vm.AdvanceStep = function(forceStep) {
+        vm.AdvanceStep = function(forceStep) 
+        {
             if (vm.CurrentStep == 0)
             {
-                vm.CurrentStep++;
                 vm.ValidateAccessory();
                 return;
             }
@@ -124,6 +129,18 @@
             }
         }
 
+        vm.Calibrate = function()
+        {
+            vm.NewAccessory.CInitialDist = vm.NewAccessory.SensorValue;
+        }
+
+        vm.RegisterAccessory = function()
+        {
+            $http.post("/api/add_accessory", vm.NewAccessory)
+                .then(function(response) {
+                   
+                });
+        }
 
         function removeElement(event) {
           if (event.animationName === 'slide-out') {
