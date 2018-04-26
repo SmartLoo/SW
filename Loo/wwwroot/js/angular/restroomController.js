@@ -9,7 +9,7 @@
         var vm = this;
         vm.SelectedRestroom = "";
         vm.Validation = [];
-        vm.CurrentStep = 1;
+        vm.CurrentStep = 0;
        
         $(".verification-input").keyup(function() {
           var len = $(this.value.length);
@@ -55,7 +55,23 @@
                 .then(function(response) {
                 if (response.data != "Invalid"){
                     vm.NewAccessory = response.data;
-                    vm.AdvanceStep();
+                    $http.get("/api/bridge" + "?bridgeId=" + vm.NewAccessory.BridgeId)
+                        .then(function(response) {
+                            if (response.data != [])
+                            {
+                                var ref = response.data;
+                                // we found another sensor with same bridge id
+                                vm.NewAccessory.BuildingName = ref.BuildingName;
+                                vm.NewAccessory.BuildingCode = ref.BuildingCode;
+                                vm.NewAccessory.LocationName = ref.LocationName;
+                                vm.NewAccessory.LocationCode = ref.LocationCode;
+                                vm.AdvanceStep(3); // deprecate on next rev
+                            }
+                            else
+                            {
+                                vm.AdvanceStep(2);  // deprecate on next rev
+                            }
+                        });
                 }
             });
         }
@@ -86,26 +102,39 @@
                     return (2);
             };
 
-        vm.AdvanceStep = function() {
+        vm.AdvanceStep = function(forceStep) {
+            if (vm.CurrentStep == 0)
+            {
+                vm.CurrentStep++;
+                vm.ValidateAccessory();
+                return;
+            }
+
+            vm.PreviousStep = vm.CurrentStep;
             var stepId = '#step' + vm.CurrentStep.toString();
-            vm.CurrentStep++;
             $(stepId).addClass('dissolve');
+
+            if (forceStep != null)
+            {
+                vm.CurrentStep = forceStep;
+            }
+            else
+            {
+                vm.CurrentStep++;
+            }
         }
 
 
         function removeElement(event) {
           if (event.animationName === 'slide-out') {
             event.target.parentNode.removeChild(event.target);
-
             var stepId = '#step' + vm.CurrentStep.toString();
             $(stepId).removeClass('hidden-step');
             $(stepId).addClass('slide-in');
           }
 
           if (event.animationName === 'dissolve') {
-
-              var prevStep = vm.CurrentStep -1;
-              var stepId = '#step' + prevStep.toString();
+              var stepId = '#step' + vm.PreviousStep.toString();
               $(stepId).removeClass('dissolve');
               $(stepId).addClass('slide-out');
               $(stepId).removeClass('slide-in');

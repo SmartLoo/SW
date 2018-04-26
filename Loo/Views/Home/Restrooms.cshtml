@@ -28,7 +28,7 @@
                 <button class="btn btn-default btn-pill">
                     Edit
                 </button>
-                <button type="button" data-toggle="modal" data-target="#sensorSetupModal" class="btn btn-default btn-round">
+                <button type="button" ng-click="vm.ResetValidation()" data-toggle="modal" data-target="#sensorSetupModal" class="btn btn-default btn-round">
                     <i class="fas fa-plus"></i>
                 </button>
             </span>
@@ -145,23 +145,80 @@
             </form>        
         </div>
         <div id="step2" class="step hidden-step">
-            <h5>Step 2</h5>
-            <h6></h6>
+            <h5>Location Details</h5>
             <br>
-            <form>                
-            </form>        
+            <div class="row">
+              <div class="col-8">
+                <label for="inputPassword5">Building</label>
+                <input ng-model="vm.NewAccessory.BuildingName" type="text" class="form-control" placeholder="Studio C">
+              </div>
+              <div class="col-4">
+                <label for="inputPassword5">Building Code</label>
+                <input ng-model="vm.NewAccessory.BuildingCode" type="text" class="form-control" placeholder="B100">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-8">
+                <label for="inputPassword5">Restroom</label>
+                <input ng-model="vm.NewAccessory.LocationName" type="text" class="form-control" placeholder="1st Floor Women">
+              </div>
+              <div class="col-4">
+                <label for="inputPassword5">Building Code</label>
+                <input ng-model="vm.NewAccessory.LocationCode" type="text" class="form-control" placeholder="1FLW">
+              </div>
+            </div>
         </div>
         <div id="step3" class="step hidden-step">
-            <h5>Step 3</h5>
-            <h6></h6>
+            <h5>Location Details</h5>
+            <h6>Great! We found the bridge you're connected to.</h6>
             <br>
-            <form>
-            </form>        
+            <div class="row">
+              <div class="col-8">
+                <label for="inputPassword5">Building</label>
+                <input ng-model="vm.NewAccessory.BuildingName" type="text" class="form-control" placeholder="Studio C" readonly>
+              </div>
+              <div class="col-4">
+                <label for="inputPassword5">Building Code</label>
+                <input ng-model="vm.NewAccessory.BuildingCode" type="text" class="form-control" placeholder="B100" readonly>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-8">
+                <label for="inputPassword5">Restroom</label>
+                <input ng-model="vm.NewAccessory.LocationName" type="text" class="form-control" placeholder="1st Floor Women" readonly>
+              </div>
+              <div class="col-4">
+                <label for="inputPassword5">Building Code</label>
+                <input ng-model="vm.NewAccessory.LocationCode" type="text" class="form-control" placeholder="1FLW" readonly>
+              </div>
+            </div>
+        </div>
+        <div id="step4" class="step hidden-step">
+            <h5>Sensor Details</h5>
+            <h6>Give this sensor a descriptive name.</h6>
+            <br>
+            <div class="row">
+              <div class="col-12">
+                <input ng-model="vm.NewAccessory.SensorName" type="text" class="form-control" placeholder="Left Paper Towel Dispenser">
+              </div>
+            </div>
+        </div>
+        <div id="step5" class="step hidden-step">
+            <h5>Calibration</h5>
+            <h6>Almost done! Follow the calibration steps carefully.</h6>
+            <br>
+            <div class="row">
+              <div class="col-12">
+                <input ng-model="" type="text" class="form-control" placeholder="Placeholder">
+              </div>
+            </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button ng-click="vm.ValidateAccessory()" type="button" class="btn btn-primary">Continue</button>
+        <button ng-click="vm.AdvanceStep()" type="button" class="btn btn-primary">Continue</button>
       </div>
     </div>
   </div>

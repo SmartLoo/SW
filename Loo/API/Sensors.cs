@@ -90,6 +90,29 @@ namespace Loo.API
         }
 
         /// <summary>
+        /// Returns first sensor matching bridge ID for location data when
+        /// adding new accessory to Loo Cloud.
+        /// </summary>
+        /// <returns>The sensor by bridge.</returns>
+        /// <param name="bridgeId">Bridge identifier.</param>
+        [HttpGet("api/bridge")]
+        public JsonResult GetSensorByBridge(string bridgeId)
+        {
+            var restroom = _ctx.Find("{\"BridgeId\" : \"" + bridgeId + "\"}")
+                        .ToList()
+                        .FirstOrDefault(x => x.LocationName != "");
+
+            if (restroom != null)
+            {
+                return new JsonResult(restroom);
+            }
+            else
+            {
+                return new JsonResult("[]");
+            }
+        }
+
+        /// <summary>
         /// Gets all sensors for a given client, building, and specified restroom.
         /// </summary>
         /// <returns>The sensors.</returns>

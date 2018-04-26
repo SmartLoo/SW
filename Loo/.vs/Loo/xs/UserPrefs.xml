@@ -1,20 +1,21 @@
 ﻿<Properties StartupConfiguration="{69944103-D7B1-4EB0-8367-42D1C3F7908A}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Home/Restrooms.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Models/Client.cs">
     <Files>
-      <File FileName="API/Sensors.cs" Line="171" Column="14" />
+      <File FileName="API/Sensors.cs" Line="105" Column="31" />
       <File FileName="Controllers/AccountController.cs" Line="29" Column="10" />
       <File FileName="wwwroot/js/angular/app.js" Line="16" Column="20" />
-      <File FileName="wwwroot/js/angular/restroomController.js" Line="21" Column="12" />
-      <File FileName="Views/Home/Restrooms.cshtml" Line="162" Column="12" />
+      <File FileName="wwwroot/js/angular/restroomController.js" Line="54" Column="49" />
+      <File FileName="Views/Home/Restrooms.cshtml" Line="32" Column="48" />
       <File FileName="wwwroot/css/registration.css" Line="5" Column="32" />
       <File FileName="wwwroot/css/loo.css" Line="185" Column="12" />
-      <File FileName="Views/Account/SetupMaster.cshtml" Line="33" Column="24" />
+      <File FileName="Models/Client.cs" Line="55" Column="45" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/becorn/Projects/Loo/Loo/Controllers/AccountController.cs" relfile="Controllers/AccountController.cs" line="78" column="1" />
+      <Breakpoint file="/Users/becorn/Projects/Loo/Loo/API/Sensors.cs" relfile="API/Sensors.cs" line="105" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.Loo PreferredExecutionTarget="MonoDevelop.Default" />
