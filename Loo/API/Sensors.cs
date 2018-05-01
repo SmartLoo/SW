@@ -2,15 +2,11 @@
 using System.Threading.Tasks;
 using Loo.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Documents.Client;
-using Loo;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using MongoDB.Driver;
-using MongoDB.Bson;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 namespace Loo.API
 {
@@ -144,20 +140,23 @@ namespace Loo.API
 
             if (sensor == null)
             {
-                sensor = new Sensor(s.SensorId);         
+                sensor = new Sensor(s.SensorId, s.BridgeId);         
             }
 
             if (sensor.SensorId[0] == 'S')
             {
+                // soap dispenser, increment total number of pumps
                 sensor.SensorValue += 1;
             }
-            else if (sensor.SensorId[0] == 'R')
+            else if (sensor.SensorId[0] == 'W')
             {
-                sensor.SensorValue = (s.Value - 10) * (float)1.17;
+                // waste receptacle, use calibration parameters to calculate
+                sensor.SensorValue = (1 - (((sensor.CInitialDist - sensor.CMinDist) - s.Value) / (sensor.CInitialDist - sensor.CMinDist))) * 100;
             }
             else if (sensor.SensorId[0] == 'P')
             {
-                sensor.SensorValue = s.Value - (float)2.54;
+                // paper towel, toilet paper dispenser, use calibration parameters to calculate
+                sensor.SensorValue = (1- (((sensor.CDiameter - sensor.CMinDist) - (s.Value - sensor.CInitialDist)) / (sensor.CDiameter - sensor.CMinDist))) * 100;
             }
             else
             {
@@ -169,6 +168,7 @@ namespace Loo.API
             var historyItem = new SensorHistory()
             {
                 SensorId = sensor.SensorId,
+                BridgeId = sensor.BridgeId,
                 SensorValue = sensor.SensorValue,
                 Timestamp = sensor.TimeStamp
             };
@@ -221,6 +221,8 @@ namespace Loo.API
     {
 		[JsonProperty(PropertyName = "sensorId")]
         public string SensorId { get; set; }
+        [JsonProperty(PropertyName = "bridgeId")]
+        public string BridgeId { get; set; }
 		[JsonProperty(PropertyName = "sensorValue")]
 		public float Value { get; set; }
     }
