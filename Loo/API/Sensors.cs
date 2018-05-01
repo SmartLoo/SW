@@ -143,24 +143,17 @@ namespace Loo.API
                 sensor = new Sensor(s.SensorId, s.BridgeId);         
             }
 
-            if (sensor.SensorId[0] == 'S')
+            switch (sensor.SensorId[0])
             {
-                // soap dispenser, increment total number of pumps
-                sensor.SensorValue += 1;
-            }
-            else if (sensor.SensorId[0] == 'W')
-            {
-                // waste receptacle, use calibration parameters to calculate
-                sensor.SensorValue = (1 - (((sensor.CInitialDist - sensor.CMinDist) - s.Value) / (sensor.CInitialDist - sensor.CMinDist))) * 100;
-            }
-            else if (sensor.SensorId[0] == 'P')
-            {
-                // paper towel, toilet paper dispenser, use calibration parameters to calculate
-                sensor.SensorValue = (1- (((sensor.CDiameter - sensor.CMinDist) - (s.Value - sensor.CInitialDist)) / (sensor.CDiameter - sensor.CMinDist))) * 100;
-            }
-            else
-            {
-                sensor.SensorValue = s.Value;
+                case 'S':
+                    sensor.SensorValue = s.Value;
+                    break;
+                case 'W':
+                    sensor.SensorValue = (1 - (((sensor.CInitialDist - sensor.CMinDist) - s.Value) / (sensor.CInitialDist - sensor.CMinDist))) * 100;
+                    break;
+                case 'P':
+                    sensor.SensorValue = (1 - (((sensor.CDiameter - sensor.CMinDist) - (s.Value - sensor.CInitialDist)) / (sensor.CDiameter - sensor.CMinDist))) * 100;
+                    break;
             }
 
             sensor.TimeStamp = DateTime.Now;
