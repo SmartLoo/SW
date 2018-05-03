@@ -54,10 +54,14 @@
                             <div class="card-body">
                                 <div class="d-flex flex-row card-flex">
                                   <div class="p-2 bg-white-100">
-                                    <i ng-if="s.SensorId[0] == 'T'" class="fas fa-trash"></i>
-                                    <i ng-if="s.SensorId[0] == 'L'" class="fas fa-tint"></i>
-                                    <i ng-if="s.SensorId[0] == 'P'" class="fas fa-hand-paper"></i>
-                                    <i ng-if="s.SensorId[0] == 'S'" class="fas fa-hand-holding"></i>
+                                    <i ng-if="s.SensorId[0] == 'T'" class="btn btn-sq-icon fas fa-trash"></i>
+                                    <i ng-if="s.SensorId[0] == 'L'" class="btn btn-sq-icon fas fa-tint"></i>
+                                    <i ng-if="s.SensorId[0] == 'P'" class="btn btn-sq-icon fas fa-hand-paper"></i>
+                                    <i ng-if="s.SensorId[0] == 'S'" class="btn btn-sq-icon fas fa-hand-holding"></i>
+                                    <br><br><br>
+                                    <button ng-click="vm.LoadGraph(s)" data-toggle="modal" data-target="#sensorGraph" class="btn btn-square bg-grey-90">
+                                         <i class="fas fa-chart-area"></i>       
+                                    </button>
                                   </div>
                                   <div class="p-2 bg-white-90 w-100">
                                         <div ng-class="{'bg-danger': s.SensorId[0] == 'L' && s.SensorValue == 1 || (s.SensorId[0] != 'T' && s.SensorValue <= 10)}" class="progress-bar card-bar" role="progressbar" aria-valuenow="{{vm.progressBar(s)}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( vm.progressBar(s) + '%' ) }"></div><br>
@@ -105,6 +109,23 @@
         </div>
     </nav>
 </body>
+
+<!-- Modal -->
+<div class="modal fade" id="sensorGraph" tabindex="-1" role="dialog" aria-labelledby="sensorGraph" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sensorGraphTitle">{{vm.SelectedSensor.SensorName}} - Last 7 Days</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <canvas id="sensorChart" width="400" height="400"></canvas>
+      </div>
+    </div>
+    </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="sensorSetupModal" tabindex="-1" role="dialog" aria-labelledby="sensorSetupModal" aria-hidden="true">
@@ -283,7 +304,7 @@
     </div>
   </div>
 </div>
-    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
 <script src="~/js/angular/app.js"></script>
 <script src="~/js/angular/restroomController.js"></script>

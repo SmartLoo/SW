@@ -5,7 +5,7 @@
     angular.module("app")
         .controller("restroomController", restroomController);
 
-    function restroomController($http, $timeout, $scope, $interval) {
+    function restroomController($http, $timeout, $scope, $interval, $filter) {
         var vm = this;
         vm.SelectedRestroom = "";
         vm.Validation = [];
@@ -184,11 +184,92 @@
             vm.NewAccessory.CInitialDist = vm.NewAccessory.SensorValue;
         }
 
+        vm.LoadGraph = function(s)
+        {
+            var data = [];
+            var labels = [];
+            $http.get("/api/sensor_data?bridgeId=" + s.BridgeId + "&sensorId=" + s.SensorId)
+                    .then(function(response) {
+                        var i;
+                        var history = response.data;
+                        for (i = 0; i < history.length; i++) { 
+                            data.push(Math.round(history[i].SensorValue));
+                            labels.push($filter('date')(history[i].Timestamp, 'MM-dd-yy hh:mm a'));
+                        } 
+                });
+                               
+            vm.SelectedSensor = s;
+            var ctx = document.getElementById("sensorChart").getContext('2d');
+            var sensorChart = new Chart(ctx, {
+                type: 'line',
+                showLines: false,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        fill: false,
+                        data: data,
+                        borderColor: [
+                            'rgba(0,123,255,1)',
+                            'rgba(0, 123, 255, 1)',
+                            'rgba(0, 123, 255, 1)',
+                            'rgba(0, 123, 255, 1)',
+                            'rgba(0, 123, 255, 1)',
+                            'rgba(0, 123, 255, 1)'
+                        ],
+                        borderWidth: 0,
+                        pointBorderColor: 'rgba(0,0,0,0.5)',
+                        pointBackgroundColor: 'rgba(0,0,0,0.5)',
+                        pointRadius: 0,
+                        pointHoverRadius: 5,
+                        pointHitRadius: 5,
+                        pointBorderWidth: 1,
+                        pointStyle: 'circle'
+                    }]
+                },
+                options: {
+                    tooltips: {
+                        displayColors: false,
+                        titleFontSize: 16,
+                        titleFontColor: '#ffffff',
+                        bodyFontColor: '#ffffff',
+                        bodyFontSize: 14
+                    },
+                    legend: {
+                        display: false,
+                      },
+                    scales: {
+                        xAxes: [{
+                         ticks:{
+                            display: false
+                          },
+                          gridLines: {
+                            display: false,
+                          },
+                          scaleLabel: {
+                            display: false,
+                          }
+                        }],
+                        yAxes: [{
+                        ticks:{
+                            display: false
+                          },
+                          gridLines: {
+                            display: false,
+                            drawBorder: false
+                          },
+                          scaleLabel: {
+                            display: false,
+                          }
+                        }]
+                      }
+                }
+            });
+        }
+
         vm.RegisterAccessory = function()
         {
             $http.post("/api/add_accessory", vm.NewAccessory)
-                .then(function(response) {
-                   
+                .then(function(response) {                   
                 });
         }
 

@@ -27,6 +27,18 @@
     letter-spacing: .1em
 }
 
+.btn-square {
+    border-radius: 0
+}
+
+.btn-sq-icon {
+    border-radius: 0;
+}
+
+.btn-sq-icon:hover {
+    cursor: default !important
+}
+
 h1,h4 {
     color: white
 }
@@ -79,6 +91,18 @@ h1,h4 {
     font-size: 20px
 }
 
+#sensorGraph .modal-header {
+    border-bottom: none;
+    z-index: 1000
+}
+
+#sensorGraph .modal-body {
+    padding: 0;
+    margin-bottom: -10px;
+    margin-left: -10px;
+    margin-top: -66px
+}
+
 .card-title {
     color: black
 }
@@ -102,6 +126,10 @@ h1,h4 {
 
 .bg-white-100 {
     background-color: hsla(0,0%,100%,1)
+}
+
+.bg-grey-90 {
+    background-color: hsl(0, 0%, 93%)
 }
 
 .card {

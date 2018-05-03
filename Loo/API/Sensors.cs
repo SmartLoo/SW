@@ -194,6 +194,13 @@ namespace Loo.API
             }
         }
 
+        [HttpGet("api/sensor_data")]
+        public JsonResult GetSensorData(string bridgeId, string sensorId)
+        {
+            var sensorData = _history.Find(x => x.BridgeId == bridgeId && x.SensorId == sensorId && x.Timestamp >= DateTime.Now.AddDays(-7)).ToList();
+            return new JsonResult(sensorData);
+        }
+
         [HttpGet("api/validate")]
         public JsonResult ValidateAccessory(string accessoryCode)
         {
