@@ -93,18 +93,21 @@ h1,h4 {
 
 #sensorGraph .modal-header {
     border-bottom: none;
-    z-index: 1000
 }
 
 #sensorGraph .modal-body {
     padding: 0;
     margin-bottom: -10px;
-    margin-left: -10px;
+    margin-left: -11px;
     margin-top: -66px
 }
 
 #sensorGraph .modal-title {
     font-weight: 100 !important
+}
+
+#sensorGraph .close {
+    z-index: 1000
 }
 
 .card-title {

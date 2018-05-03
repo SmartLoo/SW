@@ -217,9 +217,9 @@
                             'rgba(0, 123, 255, 1)'
                         ],
                         borderWidth: 0,
-                        pointBorderColor: 'rgba(0,0,0,0.5)',
-                        pointBackgroundColor: 'rgba(0,0,0,0.5)',
-                        pointRadius: 0,
+                        pointBorderColor: 'rgba(0,123,255,0.5)',
+                        pointBackgroundColor: 'rgba(0,123,255,0.5)',
+                        pointRadius: 4,
                         pointHoverRadius: 5,
                         pointHitRadius: 5,
                         pointBorderWidth: 1,
