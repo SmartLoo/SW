@@ -103,6 +103,10 @@ h1,h4 {
     margin-top: -66px
 }
 
+#sensorGraph .modal-title {
+    font-weight: 100 !important
+}
+
 .card-title {
     color: black
 }
