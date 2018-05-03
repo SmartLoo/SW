@@ -148,7 +148,7 @@ namespace Loo.API
                 case 'S':
                     sensor.SensorValue = s.Value;
                     break;
-                case 'W':
+                case 'T':
                     sensor.SensorValue = (1 - (((sensor.CInitialDist - sensor.CMinDist) - s.Value) / (sensor.CInitialDist - sensor.CMinDist))) * 100;
                     break;
                 case 'P':
@@ -163,7 +163,8 @@ namespace Loo.API
                 SensorId = sensor.SensorId,
                 BridgeId = sensor.BridgeId,
                 SensorValue = sensor.SensorValue,
-                Timestamp = sensor.TimeStamp
+                Timestamp = sensor.TimeStamp,
+                Hour = sensor.TimeStamp.Hour
             };
 
             _ctx.ReplaceOne("{\"SensorId\" : \"" + s.SensorId + "\"}", sensor);
@@ -217,7 +218,7 @@ namespace Loo.API
         [JsonProperty(PropertyName = "bridgeId")]
         public string BridgeId { get; set; }
 		[JsonProperty(PropertyName = "sensorValue")]
-		public float Value { get; set; }
+        public float Value { get; set; }
     }
 
     public class SensorRegistration

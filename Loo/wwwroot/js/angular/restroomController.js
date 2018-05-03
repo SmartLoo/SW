@@ -32,18 +32,44 @@
 
                             $http.get("/api/restroom?clientId=BostonU&buildingName=" + vm.Buildings[0] + "&restroomName=" + vm.SelectedRestroom)
                                 .then(function(response) {
-                                    vm.Sensors = response.data;
+                                    var sensors = response.data;
+                                    var i;
+                                    for (i = 0; i < sensors.length; i++) { 
+                                        if (sensors[i].SensorId[0] == 'L')
+                                        {
+                                            sensors[i].SortOrder = 10000;
+                                        }
+                                        else 
+                                        {
+                                            sensors[i].SortOrder = vm.sortOrder(sensors[i]);
+                                        }
+                                    } 
+
+                                    vm.Sensors = sensors;
                             });
                     });
                 });
-                $interval(updateSensors, 5000);                                                                                            
+                $interval(updateSensors, 100000);                                                                                            
         });
 
 
         function updateSensors(){
             $http.get("/api/restroom?clientId=BostonU&buildingName=" + vm.Buildings[0] + "&restroomName=" + vm.Restrooms[0])
                 .then(function(response) {
-                    vm.Sensors = response.data;
+                    var sensors = response.data;
+                    var i;
+                    for (i = 0; i < sensors.length; i++) { 
+                        if (sensors[i].SensorId[0] == 'L')
+                        {
+                            sensors[i].SortOrder = 10000;
+                        }
+                        else 
+                        {
+                            sensors[i].SortOrder = vm.sortOrder(sensors[i]);
+                        }
+                    } 
+
+                    vm.Sensors = sensors;
             });
         }
 
@@ -81,31 +107,55 @@
             });
         }
 
-        vm.progressBar = function(sensorId, sensorValue) {
-                var sensorType = sensorId[0].slice(0,1);
+        vm.progressBar = function(s) {
+                var sensorType = s.SensorId[0].slice(0,1);
 
                 //TODO: Include input for calibration parameter
-                var calibrationValue = 3600;
 
-                if (sensorType == 'W') //water
-                    if (sensorValue == 0) {
+                if (sensorType == 'L') //liquid
+                    if (s.SensorValue == 0) {
                         return (0);
                     }
                     else {
                         return (100);
                     }
-                else if (sensorType == 'R') { //trash can
-                    return (((85-sensorValue) / 85) * 100);
+                else if (sensorType == 'T') { //trash can
+                    return s.SensorValue;
                 }
                 else if (sensorType == 'P') //paper
                 {
-                    return (((5-sensorValue) / 5) * 100);
+                    return s.SensorValue;
                 }
                 else if (sensorType == 'S') //soap        
-                    return (((calibrationValue - sensorValue) / calibrationValue) * 100);    
+                    return ((s.CMinDist - s.SensorValue) / s.CMinDist) * 100;  
                 else
                     return (2);
             };
+
+        vm.sortOrder = function(s) {
+            var sensorType = s.SensorId[0].slice(0,1);
+
+            //TODO: Include input for calibration parameter
+
+            if (sensorType == 'L') //liquid
+                if (s.SensorValue == 0) {
+                    return (0);
+                }
+                else {
+                    return (100);
+                }
+            else if (sensorType == 'T') { //trash can
+                return (100 - s.SensorValue);
+            }
+            else if (sensorType == 'P') //paper
+            {
+                return s.SensorValue;
+            }
+            else if (sensorType == 'S') //soap        
+                return ((s.CMinDist - s.SensorValue) / s.CMinDist) * 100;  
+            else
+                return (2);
+        };
 
         vm.AdvanceStep = function(forceStep) 
         {

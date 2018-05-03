@@ -5,7 +5,7 @@
 
 .btn-round {
     color: white;
-    background: rgba(128,128,128,1) !important;
+    background: #343a40 !important;
     width: 40px;
     height: 40px;
     padding: 6px 0px;
@@ -17,7 +17,7 @@
 
 .btn-pill {
     color: white;
-    background: rgba(128,128,128,1) !important;
+    background: #343a40 !important;
     padding: 8px 24px;
     border-radius: 20px;
     text-align: center;
@@ -40,11 +40,11 @@ h1,h4 {
 }
 
 .btn-pill:hover {
-    background-color: rgba(128,128,128,.8) !important
+    background-color: rgba(52,58,64,.8) !important
 }
 
 .btn-round:hover {
-    background-color: rgba(128,128,128,.8) !important
+    background-color: rgba(52,58,64,.8) !important
 }
 
 .navbar.bg-light {
@@ -83,9 +83,33 @@ h1,h4 {
     color: black
 }
 
+.card-body {
+    padding: 0
+}
+
 .card-footer {
-    padding: 1.75rem 1.25rem;
+    padding: .75rem 1.25rem;
     border: none
+}
+
+.p-2 {
+    padding: 1.25rem !important
+}
+
+.bg-white-90 {
+    background-color: hsla(0,0%,100%,.9)
+}
+
+.bg-white-100 {
+    background-color: hsla(0,0%,100%,1)
+}
+
+.card {
+    background: none
+}
+
+.card-bar {
+    height: 20px
 }
 
 .push-menu.item {
@@ -119,6 +143,18 @@ h1,h4 {
     cursor: pointer;
     text-decoration: none;
     color: #505356 !important
+}
+
+.modal-content {
+    border-radius: 0 !important
+}
+
+.modal-content .btn {
+    border-radius: 0
+}
+
+.modal-content input {
+    border-radius: 0
 }
 
 .verification-input {

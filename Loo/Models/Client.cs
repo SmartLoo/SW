@@ -94,5 +94,7 @@ namespace Loo.Models
         [JsonProperty(PropertyName = "Timestamp")]
         public DateTime Timestamp { get; set; }
 
+        [JsonProperty(PropertyName = "Hour")]
+        public double Hour { get; set; }
     }
 }
