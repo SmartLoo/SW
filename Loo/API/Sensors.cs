@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using MongoDB.Driver;
 using Microsoft.AspNetCore.Identity;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace Loo.API
 {
@@ -136,6 +139,8 @@ namespace Loo.API
         [HttpPost("api/sensor")]
         public JsonResult UpdateSensor([FromBody] SensorUpdate s)
         {
+            var user = User.Identity;
+            var acc = _userManager.FindByNameAsync(user.Name).Result;
             var sensor = _ctx.Find("{\"SensorId\" : \"" + s.SensorId + "\"}").FirstOrDefault();
 
             if (sensor == null)
@@ -154,6 +159,22 @@ namespace Loo.API
                 case 'P':
                     sensor.SensorValue = (1 - (((sensor.CDiameter - sensor.CMinDist) - (s.Value - sensor.CInitialDist)) / (sensor.CDiameter - sensor.CMinDist))) * 100;
                     break;
+            }
+
+            //BRANDON EDIT TEST
+            if (sensor.SensorId[0] == 'L')
+            {
+                const string accountSid = "AC1d76e73d266055af1367304012973fa3";
+                const string authToken = "6a50629c95d7c85089b209b120df0bb3";
+                TwilioClient.Init(accountSid, authToken);
+
+                var to = new PhoneNumber("+1" + acc.Phone);
+                var message = MessageResource.Create(
+                    to,
+                    from: new PhoneNumber("+16507795970"),
+                    body: "A spill has been detected in " + sensor.BuildingName);
+
+                Console.WriteLine(message.Sid);
             }
 
             sensor.TimeStamp = DateTime.Now;
