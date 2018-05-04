@@ -161,18 +161,45 @@ namespace Loo.API
 
             if (sensor.SensorName != null)
             {
+                // CMinDist: Calibration parameter to specify adjustment for sensor. For trash, this is sensor to liner distance.
+                // For paper, this is the minimum diameter the client wishes to consider as "empty." For example, if the roll is
+                // 20cm in diameter but the client was empty to be when 2cm in diameter remains: CMinDist would be 2cm.
+
+                // CInitialDist: Calibration parameter to specify the initial sensor value upon installation that is used as a "zero point."
+                // For trash, this would be when an empty liner is installed and the "Calibration" button is pressed.
+                // For paper, this would the intiial distance from the sensor to the roll edge when a new roll is installed.
+                // For soap, this would be the total number of presses per full bag of soap.
+
+                // CDiameter: Diameter of paper product roll for either paper towel or toilet paper.
+
+                float adjustedValue = 0.0;
+
                 switch (sensor.SensorId[0])
                 {
                     case 'S':
                         sensor.SensorValue = sensor.SensorValue + s.Value;
                         break;
                     case 'T':
-                        sensor.SensorValue = (1 - (((sensor.CInitialDist - sensor.CMinDist) - s.Value) / (sensor.CInitialDist - sensor.CMinDist))) * 100;
+                        adjustedValue = ((((sensor.CInitialDist - s.Value) / (sensor.CInitialDist - sensor.CMinDist))) * 100);
                         break;
                     case 'P':
-                        sensor.SensorValue = (1 - (((sensor.CDiameter - sensor.CMinDist) - (s.Value - sensor.CInitialDist)) / (sensor.CDiameter - sensor.CMinDist))) * 100;
+                        adjustedValue = (1 - (((sensor.CDiameter - sensor.CMinDist) - (s.Value - sensor.CInitialDist)) / (sensor.CDiameter - sensor.CMinDist))) * 100;
                         break;
                 }
+
+                if (adjustedValue < 0)
+                {
+                    sensor.SensorValue = 0;
+                }
+                else if (adjustedValue > 100)
+                {
+                    sensor.SensorValue = 100;
+                }
+                else
+                {
+                    sensor.SensorValue = adjustedValue;
+                }
+
             }
             else
             {

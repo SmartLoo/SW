@@ -255,23 +255,8 @@
                 <br>              
               </div>
             </div>
-            <div ng-if="vm.NewAccessory.SensorId[0] == 'T'">
-              <div class="form-group">
-                <label>1. Enter minimum roll diameter in (cm):</label>
-                <input ng-model="vm.NewAccessory.CMinDist" type="number" class="form-control" placeholder="50">
-              </div>
-              <div class="form-group">
-                <label>2. Insert full roll and press calibrate:</label>
-                <button ng-click="vm.Calibrate()" class="btn btn-block btn-dark">Calibrate</button>
-                <br>
-              </div>
-              <div class="form-group">
-                <label>3. Calibration value:</label>
-                <input ng-model="vm.NewAccessory.CInitialDist" type="text" class="form-control" readonly>
-                <br>              
-              </div>
             </div>
-            <div ng-if="vm.NewAccessory.SensorId[0] == 'W'">
+            <div ng-if="vm.NewAccessory.SensorId[0] == 'T'">
               <div class="form-group">
                 <label>1. Enter distance from sensor to top of liner in (cm):</label>
                 <input ng-model="vm.NewAccessory.CMinDist" type="number" class="form-control" placeholder="50">
