@@ -64,7 +64,7 @@
                     }
                     else 
                     {
-                        $window.location.href = '/';
+                        $window.location.href = '/restrooms';
                     }
                 });
             }
@@ -119,7 +119,7 @@
                     }
                     else 
                     {
-                        $window.location.href = '/';
+                        $window.location.href = '/restrooms';
                     }
                 });
             }

@@ -49,7 +49,7 @@
                             });
                     });
                 });
-                $interval(updateSensors, 100000);                                                                                            
+                $interval(updateSensors, 10000);                                                                                            
         });
 
 
@@ -82,9 +82,9 @@
                 if (response.data != "Invalid"){
                     vm.CurrentStep++;
                     vm.NewAccessory = response.data;
-                    $http.get("/api/bridge" + "?bridgeId=" + vm.NewAccessory.BridgeId)
+                    $http.get("/api/bridge" + "?bridgeId=" + vm.NewAccessory.BridgeId + "&sensorId=" + vm.NewAccessory.SensorId)
                         .then(function(response) {
-                            if (response.data != [])
+                            if (response.data != [] && response.data.BridgeId != null)
                             {
                                 var ref = response.data;
                                 // we found another sensor with same bridge id
@@ -195,7 +195,11 @@
                         for (i = 0; i < history.length; i++) { 
                             data.push(Math.round(history[i].SensorValue));
                             labels.push($filter('date')(history[i].Timestamp, 'MM-dd-yy hh:mm a'));
-                        } 
+                        }
+                        if (data.length > 0)
+                            vm.HasData = true;
+                        else
+                            vm.HasData = false;
                 });
                                
             vm.SelectedSensor = s;

@@ -21,12 +21,13 @@ namespace Loo.API
         IMongoCollection<SensorHistory> _history;
         private readonly UserManager<AuthenticatedUser> _userManager;
 
-        public Sensors()
+        public Sensors(UserManager<AuthenticatedUser> userManager)
         {
             _client = new MongoClient(Constants.MongoConnectionString);
             _db = _client.GetDatabase(Constants.MongoDatabase);
             _ctx = _db.GetCollection<Sensor>("Sensors");
             _history = _db.GetCollection<SensorHistory>("SensorHistory");
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -100,9 +101,9 @@ namespace Loo.API
         /// <returns>The sensor by bridge.</returns>
         /// <param name="bridgeId">Bridge identifier.</param>
         [HttpGet("api/bridge")]
-        public JsonResult GetSensorByBridge(string bridgeId)
+        public JsonResult GetSensorByBridge(string bridgeId, string sensorId)
         {
-            var restroom = _ctx.Find("{\"BridgeId\" : \"" + bridgeId + "\"}")
+            var restroom = _ctx.Find(x => x.BridgeId == bridgeId && x.SensorId != sensorId && x.BuildingName != null)
                         .ToList()
                         .FirstOrDefault(x => x.LocationName != "");
 
@@ -137,10 +138,20 @@ namespace Loo.API
         /// <returns>Updated sensor information.</returns>
         /// <param name="s">S.</param>
         [HttpPost("api/sensor")]
-        public JsonResult UpdateSensor([FromBody] SensorUpdate s)
+        public async Task<JsonResult> UpdateSensorAsync([FromBody] SensorUpdate s)
         {
             var user = User.Identity;
-            var acc = _userManager.FindByNameAsync(user.Name).Result;
+
+            AuthenticatedUser acc = new AuthenticatedUser();
+
+            if (user.Name != null)
+            {
+                acc = await _userManager.FindByEmailAsync(user.Name);
+            }
+            else {
+                acc = await _userManager.FindByEmailAsync("bcorn@bu.edu");
+            }
+             
             var sensor = _ctx.Find("{\"SensorId\" : \"" + s.SensorId + "\"}").FirstOrDefault();
 
             if (sensor == null)
@@ -148,21 +159,28 @@ namespace Loo.API
                 sensor = new Sensor(s.SensorId, s.BridgeId);         
             }
 
-            switch (sensor.SensorId[0])
+            if (sensor.SensorName != null)
             {
-                case 'S':
-                    sensor.SensorValue = s.Value;
-                    break;
-                case 'T':
-                    sensor.SensorValue = (1 - (((sensor.CInitialDist - sensor.CMinDist) - s.Value) / (sensor.CInitialDist - sensor.CMinDist))) * 100;
-                    break;
-                case 'P':
-                    sensor.SensorValue = (1 - (((sensor.CDiameter - sensor.CMinDist) - (s.Value - sensor.CInitialDist)) / (sensor.CDiameter - sensor.CMinDist))) * 100;
-                    break;
+                switch (sensor.SensorId[0])
+                {
+                    case 'S':
+                        sensor.SensorValue = sensor.SensorValue + s.Value;
+                        break;
+                    case 'T':
+                        sensor.SensorValue = (1 - (((sensor.CInitialDist - sensor.CMinDist) - s.Value) / (sensor.CInitialDist - sensor.CMinDist))) * 100;
+                        break;
+                    case 'P':
+                        sensor.SensorValue = (1 - (((sensor.CDiameter - sensor.CMinDist) - (s.Value - sensor.CInitialDist)) / (sensor.CDiameter - sensor.CMinDist))) * 100;
+                        break;
+                }
+            }
+            else
+            {
+                sensor.SensorValue = 0;
             }
 
             //BRANDON EDIT TEST
-            if (sensor.SensorId[0] == 'L')
+            if (sensor.SensorId[0] == 'L' && acc != null)
             {
                 const string accountSid = "AC1d76e73d266055af1367304012973fa3";
                 const string authToken = "6a50629c95d7c85089b209b120df0bb3";
@@ -172,7 +190,7 @@ namespace Loo.API
                 var message = MessageResource.Create(
                     to,
                     from: new PhoneNumber("+16507795970"),
-                    body: "A spill has been detected in " + sensor.BuildingName);
+                    body: "A spill has been detected in " + sensor.BuildingName + " in the " + sensor.LocationName + " at " + sensor.SensorName);
 
                 Console.WriteLine(message.Sid);
             }
@@ -188,8 +206,13 @@ namespace Loo.API
                 Hour = sensor.TimeStamp.Hour
             };
 
-            _ctx.ReplaceOne("{\"SensorId\" : \"" + s.SensorId + "\"}", sensor);
-            _history.InsertOne(historyItem);
+            if (sensor.Id.Pid == 0)
+                _ctx.InsertOne(sensor);
+            else
+                _ctx.ReplaceOne("{\"SensorId\" : \"" + s.SensorId + "\"}", sensor);
+
+            if (sensor.SensorName != null)
+                _history.InsertOne(historyItem);
 
             return new JsonResult(sensor);
         }
@@ -227,7 +250,7 @@ namespace Loo.API
         {
             var sensor = _ctx.Find("{\"SensorId\" : \"" + accessoryCode + "\"}").FirstOrDefault();
 
-            if (sensor != null && sensor.SensorName == "")
+            if (sensor != null && sensor.SensorName == null)
             {
                 return new JsonResult(sensor);
             }

@@ -1,19 +1,16 @@
 ﻿<Properties StartupConfiguration="{69944103-D7B1-4EB0-8367-42D1C3F7908A}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Home/Schedule.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/HomeController.cs">
     <Files>
-      <File FileName="API/Sensors.cs" Line="155" Column="67" />
-      <File FileName="Controllers/AccountController.cs" Line="48" Column="41" />
-      <File FileName="wwwroot/js/angular/app.js" Line="16" Column="20" />
-      <File FileName="wwwroot/js/angular/restroomController.js" Line="38" Column="75" />
-      <File FileName="Views/Home/Restrooms.cshtml" Line="290" Column="8" />
+      <File FileName="API/Sensors.cs" Line="181" Column="13" />
+      <File FileName="Controllers/AccountController.cs" Line="57" Column="18" />
+      <File FileName="wwwroot/js/angular/restroomController.js" Line="202" Column="48" />
+      <File FileName="Views/Home/Restrooms.cshtml" Line="72" Column="27" />
       <File FileName="wwwroot/css/registration.css" Line="5" Column="32" />
-      <File FileName="wwwroot/css/loo.css" Line="157" Column="21" />
-      <File FileName="Models/Client.cs" Line="65" Column="21" />
-      <File FileName="API/DataAnalytics.cs" Line="59" Column="46" />
-      <File FileName="wwwroot/css/site.css" Line="25" Column="1" />
-      <File FileName="Views/Shared/_Layout.cshtml" Line="1" Column="1" />
-      <File FileName="Controllers/HomeController.cs" Line="27" Column="25" />
-      <File FileName="Views/Home/Schedule.cshtml" Line="4" Column="1" />
+      <File FileName="Controllers/HomeController.cs" Line="28" Column="38" />
+      <File FileName="Views/Home/Schedule.cshtml" Line="98" Column="62" />
+      <File FileName="wwwroot/js/angular/registrationController.js" Line="122" Column="60" />
+      <File FileName="Program.cs" Line="15" Column="47" />
+      <File FileName="Startup.cs" Line="87" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

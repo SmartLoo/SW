@@ -15,7 +15,7 @@ namespace Loo.Controllers
         [Route("/")]
         public IActionResult Index()
         {
-            return View();
+            return View("Restrooms");
         }
 
         [Route("restrooms")]
