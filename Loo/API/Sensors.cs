@@ -180,7 +180,7 @@ namespace Loo.API
             }
 
             //BRANDON EDIT TEST
-            if (sensor.SensorId[0] == 'L' && acc != null)
+            if (sensor.SensorId[0] == 'L' && sensor.SensorValue == 0 && acc != null)
             {
                 const string accountSid = "AC1d76e73d266055af1367304012973fa3";
                 const string authToken = "6a50629c95d7c85089b209b120df0bb3";
