@@ -172,7 +172,7 @@ namespace Loo.API
 
                 // CDiameter: Diameter of paper product roll for either paper towel or toilet paper.
 
-                float adjustedValue = 0.0;
+                float adjustedValue = 0;
 
                 switch (sensor.SensorId[0])
                 {
@@ -185,6 +185,9 @@ namespace Loo.API
                     case 'P':
                         adjustedValue = (1 - (((sensor.CDiameter - sensor.CMinDist) - (s.Value - sensor.CInitialDist)) / (sensor.CDiameter - sensor.CMinDist))) * 100;
                         break;
+                    case 'L':
+                        adjustedValue = s.Value;
+                        break;
                 }
 
                 if (adjustedValue < 0)
@@ -195,7 +198,7 @@ namespace Loo.API
                 {
                     sensor.SensorValue = 100;
                 }
-                else
+                else if (sensor.SensorId[0] != 'S')
                 {
                     sensor.SensorValue = adjustedValue;
                 }
